@@ -1,0 +1,12 @@
+# 開発ツール用の依存関係
+# pip install -r requirements-dev.txt でインストール
+
+# コード品質ツール
+black==24.4.2    # コードフォーマッター
+flake8==7.0.0    # リンター
+isort==5.13.2    # import文の整理
+bandit==1.7.8    # セキュリティチェック
+
+# テストツール（将来用）
+# pytest==8.2.0
+# pytest-cov==5.0.0

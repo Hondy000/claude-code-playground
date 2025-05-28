@@ -59,8 +59,11 @@ python3 -m venv venv
 source venv/bin/activate  # Linux/Mac
 # venv\Scripts\activate  # Windows
 
-# 依存関係をインストール（現在は標準ライブラリのみ）
+# アプリケーションの依存関係をインストール（現在は標準ライブラリのみ）
 pip install -r requirements.txt
+
+# 開発ツールをインストール（オプション）
+pip install -r requirements-dev.txt
 ```
 
 ## 新しいアプリの追加方法
