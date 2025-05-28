@@ -1,5 +1,7 @@
 # Claude Code Playground
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/Hondy000/claude-code-playground)
+
 Claude Codeの機能をテストするための開発環境です。複数のミニアプリケーションを管理するプロジェクト構造になっています。
 
 ## ディレクトリ構造
@@ -51,7 +53,7 @@ python3 tests/calculator/test_calculator.py -v
 ## セットアップ
 ```bash
 # リポジトリをクローン
-git clone <repository-url>
+git clone https://github.com/Hondy000/claude-code-playground.git
 cd claude-code-playground
 
 # 必要に応じて仮想環境を作成（推奨）
