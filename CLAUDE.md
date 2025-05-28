@@ -27,11 +27,14 @@ claude-code-playground/
 
 ## よく使うコマンド
 ```bash
-# Pythonスクリプトの実行
-python3 src/hello.py
+# Pythonアプリの実行
+python3 -m apps.calculator.calculator_demo
 
-# JavaScriptの実行
-node src/example.js
+# テストの実行
+python3 tests/calculator/test_calculator.py -v
+
+# 新しいブランチの作成
+git checkout -b feature/アプリ名-機能名
 ```
 
 ## プロジェクトの目的

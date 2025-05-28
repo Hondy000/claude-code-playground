@@ -1,0 +1,33 @@
+name: Security Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 1'  # 毎週月曜日に実行
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run PyCharm Security
+      uses: python/security-action@v1
+      with:
+        scan-directories: "apps,tests"
+    
+    - name: Run Bandit Security Linter
+      run: |
+        pip install bandit
+        bandit -r apps/ -f json -o bandit-report.json || true
+    
+    - name: Upload Bandit Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: bandit-security-report
+        path: bandit-report.json
