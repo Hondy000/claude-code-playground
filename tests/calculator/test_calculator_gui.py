@@ -12,7 +12,7 @@ sys.modules['tkinter'] = MagicMock()
 sys.modules['tkinter.ttk'] = MagicMock()
 
 from apps.calculator.calculator_gui import CalculatorGUI
-from apps.calculator import Calculator
+from apps.calculator.calculator import Calculator
 
 
 class TestCalculatorGUI(unittest.TestCase):
