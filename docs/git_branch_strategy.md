@@ -6,7 +6,7 @@
 
 ### main/master
 - **用途**: 安定版のコード
-- **マージ条件**: 
+- **マージ条件**:
   - すべてのテストがパス
   - コードレビュー完了（該当する場合）
   - 動作確認済み
@@ -14,7 +14,7 @@
 ### feature/\*
 - **用途**: 新機能の開発
 - **命名規則**: `feature/アプリ名-機能名`
-- **例**: 
+- **例**:
   - `feature/calculator-scientific-mode`
   - `feature/todo-app-initial`
   - `feature/timer-notification`
@@ -22,28 +22,28 @@
 ### fix/\*
 - **用途**: バグ修正
 - **命名規則**: `fix/アプリ名-修正内容`
-- **例**: 
+- **例**:
   - `fix/calculator-division-error`
   - `fix/todo-save-bug`
 
 ### refactor/\*
 - **用途**: リファクタリング
 - **命名規則**: `refactor/対象-内容`
-- **例**: 
+- **例**:
   - `refactor/project-structure`
   - `refactor/calculator-tests`
 
 ### docs/\*
 - **用途**: ドキュメントの更新
 - **命名規則**: `docs/ドキュメント名`
-- **例**: 
+- **例**:
   - `docs/readme-update`
   - `docs/claude-capabilities`
 
 ### experiment/\*
 - **用途**: 実験的な機能やアイデアの検証
 - **命名規則**: `experiment/実験内容`
-- **例**: 
+- **例**:
   - `experiment/ai-integration`
   - `experiment/new-ui-framework`
 - **注意**: mainにマージしない前提
@@ -115,7 +115,7 @@ test: 電卓の境界値テストを追加
 
 ### PRを作成する場合
 1. **タイトル**: ブランチ名と同じ規則
-2. **説明**: 
+2. **説明**:
    - 変更内容の概要
    - テスト方法
    - 関連するIssue（あれば）
@@ -153,10 +153,10 @@ git push origin --delete feature/app-name-feature-name
 [alias]
     # 新しいfeatureブランチを作成
     new-feature = "!f() { git checkout main && git pull && git checkout -b feature/$1; }; f"
-    
-    # 新しいfixブランチを作成  
+
+    # 新しいfixブランチを作成
     new-fix = "!f() { git checkout main && git pull && git checkout -b fix/$1; }; f"
-    
+
     # ブランチの一覧を見やすく表示
     br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative))%(color:reset)'
 ```
