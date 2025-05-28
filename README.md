@@ -36,7 +36,7 @@ claude-code-playground/
 - **Web版**: HTML/JavaScriptで実装
 - **テスト**: 29個のテストケース完備
 
-#### 使い方:
+#### 使い方
 ```bash
 # デモプログラムを実行
 python3 -m apps.calculator.calculator_demo
