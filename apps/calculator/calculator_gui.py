@@ -2,7 +2,7 @@
 
 import tkinter as tk
 from tkinter import ttk
-from calculator import Calculator
+from .calculator import Calculator
 
 
 class CalculatorGUI:

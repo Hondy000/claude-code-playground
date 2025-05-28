@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from calculator import Calculator
+from .calculator import Calculator
 
 
 def main():

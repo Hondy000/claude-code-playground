@@ -4,15 +4,15 @@ import sys
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
-# srcディレクトリをパスに追加
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+# appsディレクトリをパスに追加
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # tkinterをモック化（GUIテスト環境がない場合でもテスト可能に）
 sys.modules['tkinter'] = MagicMock()
 sys.modules['tkinter.ttk'] = MagicMock()
 
-from calculator_gui import CalculatorGUI
-from calculator import Calculator
+from apps.calculator.calculator_gui import CalculatorGUI
+from apps.calculator import Calculator
 
 
 class TestCalculatorGUI(unittest.TestCase):
