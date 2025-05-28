@@ -1,0 +1,80 @@
+# CodeRabbit設定ファイル
+# パブリックリポジトリ用の無料プラン設定
+
+# レビュー設定
+reviews:
+  # 日本語でのレビューコメント
+  language: "ja"
+  
+  # レビューの詳細度
+  review_level: "detailed"
+  
+  # 自動承認の設定
+  auto_approve:
+    enabled: false
+    
+  # レビュー対象から除外するパターン
+  ignore_patterns:
+    - "*.md"
+    - "docs/**"
+    - "*.json"
+    - "*.yml"
+    - "*.yaml"
+    - "__pycache__/**"
+    - "*.pyc"
+    - ".git/**"
+    
+  # 重点的にレビューするパターン
+  focus_patterns:
+    - "apps/**/*.py"
+    - "tests/**/*.py"
+    
+# チェック項目
+checks:
+  # セキュリティチェック
+  security:
+    enabled: true
+    severity: "high"
+    
+  # パフォーマンスチェック
+  performance:
+    enabled: true
+    
+  # ベストプラクティスチェック
+  best_practices:
+    enabled: true
+    
+  # バグ検出
+  bug_risk:
+    enabled: true
+    severity: "medium"
+    
+  # コードの複雑度
+  complexity:
+    enabled: true
+    threshold: 10
+    
+  # テストカバレッジ
+  test_coverage:
+    enabled: true
+    
+# プルリクエスト設定
+pull_requests:
+  # PRサマリーの生成
+  summary:
+    enabled: true
+    
+  # 変更ファイルの分類
+  categorize_files:
+    enabled: true
+    
+  # レビューコメントのスタイル
+  comment_style: "suggestion"  # inline suggestions
+  
+# その他の設定
+settings:
+  # デバッグモード
+  debug: false
+  
+  # レビュー時のコンテキスト行数
+  context_lines: 3
