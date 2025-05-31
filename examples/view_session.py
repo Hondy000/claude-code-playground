@@ -62,6 +62,29 @@ def view_session(session_file):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        view_session(sys.argv[1])
+        session_file = sys.argv[1]
+        
+        # ファイルの存在確認
+        if not Path(session_file).exists():
+            print(f"Error: File '{session_file}' does not exist.", file=sys.stderr)
+            sys.exit(1)
+        
+        # ファイルの読み取り権限確認
+        if not Path(session_file).is_file():
+            print(f"Error: '{session_file}' is not a file.", file=sys.stderr)
+            sys.exit(1)
+            
+        try:
+            # ファイルが読み取り可能か確認
+            with open(session_file, 'r', encoding='utf-8') as f:
+                pass
+        except PermissionError:
+            print(f"Error: No permission to read file '{session_file}'.", file=sys.stderr)
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error: Unable to read file '{session_file}': {e}", file=sys.stderr)
+            sys.exit(1)
+            
+        view_session(session_file)
     else:
         print("使用方法: python view_session.py <session_file.jsonl>")

@@ -97,6 +97,17 @@ grep "検索キーワード" ~/.claude/projects/$(pwd | sed "s|/|-|g")/*.jsonl
 ```bash
 #!/bin/bash
 # session_summary.sh - Claude Codeセッションの要約を表示
+set -euo pipefail
+
+# jqコマンドの存在確認
+if ! command -v jq &> /dev/null; then
+    echo "エラー: jqコマンドがインストールされていません。"
+    echo "インストール方法:"
+    echo "  Ubuntu/Debian: sudo apt-get install jq"
+    echo "  macOS: brew install jq"
+    echo "  その他: https://stedolan.github.io/jq/download/"
+    exit 1
+fi
 
 SESSION_DIR="$HOME/.claude/projects/$(pwd | sed "s|/|-|g")"
 LATEST_SESSION=$(ls -t "$SESSION_DIR"/*.jsonl 2>/dev/null | head -1)
