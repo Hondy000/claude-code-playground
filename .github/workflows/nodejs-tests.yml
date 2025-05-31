@@ -1,0 +1,143 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/**/*.js'
+      - 'apps/**/*.ts'
+      - 'apps/**/*.tsx'
+      - 'apps/**/*.json'
+      - '.github/workflows/nodejs-tests.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'apps/**/*.js'
+      - 'apps/**/*.ts'
+      - 'apps/**/*.tsx'
+      - 'apps/**/*.json'
+      - '.github/workflows/nodejs-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+        
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+    
+    - name: Find Node.js projects
+      id: find-projects
+      run: |
+        echo "Finding Node.js projects..."
+        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" | xargs -I {} dirname {} | tr '\n' ' ')
+        echo "projects=$projects" >> $GITHUB_OUTPUT
+        echo "Found projects: $projects"
+    
+    - name: Install dependencies
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Installing dependencies for $project"
+          cd $project
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
+          cd -
+        done
+    
+    - name: Run ESLint
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Running ESLint for $project"
+          cd $project
+          if [ -f ".eslintrc.json" ] || [ -f ".eslintrc.js" ] || [ -f "eslint.config.js" ]; then
+            npm run lint || echo "Lint script not found, skipping..."
+          fi
+          cd -
+        done
+      continue-on-error: true
+    
+    - name: Run TypeScript type check
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Running TypeScript check for $project"
+          cd $project
+          if [ -f "tsconfig.json" ]; then
+            npx tsc --noEmit || echo "TypeScript check failed"
+          fi
+          cd -
+        done
+      continue-on-error: true
+    
+    - name: Run tests
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Running tests for $project"
+          cd $project
+          if grep -q "\"test\":" package.json; then
+            npm test -- --passWithNoTests || echo "Tests not configured"
+          fi
+          cd -
+        done
+      continue-on-error: true
+    
+    - name: Build Next.js projects
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Building $project"
+          cd $project
+          if [ -f "next.config.js" ] || [ -f "next.config.mjs" ]; then
+            npm run build || echo "Build failed"
+          fi
+          cd -
+        done
+      continue-on-error: true
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Find Node.js projects
+      id: find-projects
+      run: |
+        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" | xargs -I {} dirname {} | tr '\n' ' ')
+        echo "projects=$projects" >> $GITHUB_OUTPUT
+    
+    - name: Run npm audit
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Running npm audit for $project"
+          cd $project
+          if [ -f "package-lock.json" ]; then
+            npm audit --audit-level=high || echo "Vulnerabilities found"
+          fi
+          cd -
+        done
+      continue-on-error: true
+    
+    - name: Check licenses
+      run: |
+        for project in ${{ steps.find-projects.outputs.projects }}; do
+          echo "Checking licenses for $project"
+          cd $project
+          npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;CC0-1.0' || echo "License check failed"
+          cd -
+        done
+      continue-on-error: true

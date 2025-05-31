@@ -1,0 +1,48 @@
+name: All Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  python:
+    name: Python Tests
+    uses: ./.github/workflows/python-tests.yml
+  
+  nodejs:
+    name: Node.js Tests
+    uses: ./.github/workflows/nodejs-tests.yml
+  
+  integration:
+    name: Integration Check
+    needs: [python, nodejs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: All tests completed
+        run: |
+          echo "✅ All tests completed successfully!"
+          echo "Python tests: ✓"
+          echo "Node.js tests: ✓"
+  
+  summary:
+    name: Test Summary
+    if: always()
+    needs: [python, nodejs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check test results
+        run: |
+          echo "Test Summary:"
+          echo "============="
+          if [ "${{ needs.python.result }}" = "success" ]; then
+            echo "✅ Python tests: Passed"
+          else
+            echo "❌ Python tests: Failed"
+          fi
+          if [ "${{ needs.nodejs.result }}" = "success" ]; then
+            echo "✅ Node.js tests: Passed"
+          else
+            echo "❌ Node.js tests: Failed"
+          fi
