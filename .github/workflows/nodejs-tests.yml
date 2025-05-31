@@ -32,18 +32,23 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
     
     - name: Find Node.js projects
       id: find-projects
       run: |
         echo "Finding Node.js projects..."
-        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" | xargs -I {} dirname {} | tr '\n' ' ')
-        echo "projects=$projects" >> $GITHUB_OUTPUT
-        echo "Found projects: $projects"
+        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" 2>/dev/null | xargs -I {} dirname {} | tr '\n' ' ')
+        if [ -z "$projects" ]; then
+          echo "No Node.js projects found"
+          echo "has_projects=false" >> $GITHUB_OUTPUT
+        else
+          echo "projects=$projects" >> $GITHUB_OUTPUT
+          echo "has_projects=true" >> $GITHUB_OUTPUT
+          echo "Found projects: $projects"
+        fi
     
     - name: Install dependencies
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Installing dependencies for $project"
@@ -57,6 +62,7 @@ jobs:
         done
     
     - name: Run ESLint
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Running ESLint for $project"
@@ -69,6 +75,7 @@ jobs:
       continue-on-error: true
     
     - name: Run TypeScript type check
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Running TypeScript check for $project"
@@ -81,6 +88,7 @@ jobs:
       continue-on-error: true
     
     - name: Run tests
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Running tests for $project"
@@ -93,6 +101,7 @@ jobs:
       continue-on-error: true
     
     - name: Build Next.js projects
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Building $project"
@@ -117,10 +126,17 @@ jobs:
     - name: Find Node.js projects
       id: find-projects
       run: |
-        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" | xargs -I {} dirname {} | tr '\n' ' ')
-        echo "projects=$projects" >> $GITHUB_OUTPUT
+        projects=$(find apps -name "package.json" -not -path "*/node_modules/*" 2>/dev/null | xargs -I {} dirname {} | tr '\n' ' ')
+        if [ -z "$projects" ]; then
+          echo "No Node.js projects found"
+          echo "has_projects=false" >> $GITHUB_OUTPUT
+        else
+          echo "projects=$projects" >> $GITHUB_OUTPUT
+          echo "has_projects=true" >> $GITHUB_OUTPUT
+        fi
     
     - name: Run npm audit
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Running npm audit for $project"
@@ -133,6 +149,7 @@ jobs:
       continue-on-error: true
     
     - name: Check licenses
+      if: steps.find-projects.outputs.has_projects == 'true'
       run: |
         for project in ${{ steps.find-projects.outputs.projects }}; do
           echo "Checking licenses for $project"
