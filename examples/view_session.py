@@ -7,6 +7,14 @@ from pathlib import Path
 from datetime import datetime
 
 def view_session(session_file):
+    """
+    Displays a Claude Code session log in a human-readable format.
+    
+    Reads a JSON Lines session file, parses each entry, and prints formatted messages based on their type. Supports displaying user messages, assistant responses (with truncation for long content), tool usage details, and session summaries. Lines that cannot be parsed or processed are skipped silently.
+    
+    Args:
+        session_file: Path to the session log file in JSON Lines format.
+    """
     with open(session_file, 'r') as f:
         for line in f:
             try:
