@@ -55,6 +55,9 @@ def view_session(session_file):
                 # JSON parsing or key access errors - skip invalid lines
                 print(f"Warning: Skipping invalid line: {e}", file=sys.stderr)
                 continue
+            except BrokenPipeError:
+                # Broken pipe (e.g., when output is piped to head) - exit gracefully
+                sys.exit(0)
             except Exception as e:
                 # Unexpected errors - log and continue
                 print(f"Unexpected error processing line: {e}", file=sys.stderr)

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # session_summary.sh - Claude Codeセッションの要約を表示
 
 # パスを安全に変換（パラメータ展開を使用）
