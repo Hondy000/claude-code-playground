@@ -66,3 +66,7 @@ git checkout -b feature/アプリ名-機能名
 ```
 
 これらのフレーズを使うことで、より深い分析と質の高い提案が期待できます。
+
+## Claude Codeセッション管理
+セッションが中断された場合の復旧方法について、詳しいガイドを用意しました：
+- [Claude Codeのセッション管理とログ活用ガイド](docs/claude_code_session_issue.md)

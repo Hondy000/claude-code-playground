@@ -81,3 +81,7 @@ pip install -r requirements-dev.txt
 - Webサイトの取得・解析
 - ディレクトリ構造の操作
 - その他の開発タスク
+
+## ドキュメント
+
+- [Claude Codeのセッション管理とログ活用ガイド](docs/claude_code_session_issue.md) - セッション復旧とログ分析の方法
