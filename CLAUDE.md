@@ -69,4 +69,4 @@ git checkout -b feature/アプリ名-機能名
 
 ## Claude Codeセッション管理
 セッションが中断された場合の復旧方法について、詳しいガイドを用意しました：
-- [Claude Codeのセッション管理とログ活用ガイド](docs/claude_code_session_issue.md)
+- [Claude Codeのセッション管理とログ活用ガイド](docs/claude_code_session_management_guide.md)

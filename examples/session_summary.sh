@@ -10,8 +10,8 @@ SESSION_DIR="$HOME/.claude/projects/${SAFE_PATH}"
 # 最新のJSONLファイルを安全に取得
 LATEST_SESSION=""
 if [ -d "$SESSION_DIR" ]; then
-    # findを使用して最新のファイルを取得
-    LATEST_SESSION=$(find "$SESSION_DIR" -name "*.jsonl" -type f -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
+    # ls -t を使用して最新のファイルを取得（BSD/macOS互換）
+    LATEST_SESSION=$(ls -t "$SESSION_DIR"/*.jsonl 2>/dev/null | head -1)
 fi
 
 if [ -z "$LATEST_SESSION" ]; then
