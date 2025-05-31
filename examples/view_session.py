@@ -51,8 +51,13 @@ def view_session(session_file):
                     summary = data.get('summary', '')
                     print(f"\n{time_prefix}SUMMARY: {summary}")
                     
+            except (json.JSONDecodeError, KeyError) as e:
+                # JSON parsing or key access errors - skip invalid lines
+                print(f"Warning: Skipping invalid line: {e}", file=sys.stderr)
+                continue
             except Exception as e:
-                # エラーが発生した場合はスキップ
+                # Unexpected errors - log and continue
+                print(f"Unexpected error processing line: {e}", file=sys.stderr)
                 continue
 
 if __name__ == "__main__":
