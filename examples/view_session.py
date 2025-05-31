@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 
 def view_session(session_file):
-    with open(session_file, 'r') as f:
+    with open(session_file, 'r', encoding='utf-8') as f:
         for line in f:
             try:
                 data = json.loads(line)
