@@ -1,6 +1,9 @@
 # Claude Code Playground
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/Hondy000/claude-code-playground)
+[![Python Tests](https://github.com/Hondy000/claude-code-playground/actions/workflows/python-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/python-tests.yml)
+[![Node.js CI](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml)
+[![All Tests](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml)
 
 Claude Codeの機能をテストするための開発環境です。複数のミニアプリケーションを管理するプロジェクト構造になっています。
 
