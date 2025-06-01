@@ -24,15 +24,15 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-        
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    
+
     - name: Find Node.js projects
       id: find-projects
       run: |
@@ -46,7 +46,7 @@ jobs:
           echo "has_projects=true" >> $GITHUB_OUTPUT
           echo "Found projects: $projects"
         fi
-    
+
     - name: Install dependencies
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -60,7 +60,7 @@ jobs:
           fi
           cd -
         done
-    
+
     - name: Run ESLint
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -73,7 +73,7 @@ jobs:
           cd -
         done
       continue-on-error: true
-    
+
     - name: Run TypeScript type check
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -86,7 +86,7 @@ jobs:
           cd -
         done
       continue-on-error: true
-    
+
     - name: Run tests
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -99,7 +99,7 @@ jobs:
           cd -
         done
       continue-on-error: true
-    
+
     - name: Build Next.js projects
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -117,12 +117,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-    
+
     - name: Find Node.js projects
       id: find-projects
       run: |
@@ -134,7 +134,7 @@ jobs:
           echo "projects=$projects" >> $GITHUB_OUTPUT
           echo "has_projects=true" >> $GITHUB_OUTPUT
         fi
-    
+
     - name: Run npm audit
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
@@ -142,12 +142,11 @@ jobs:
           echo "Running npm audit for $project"
           cd $project
           if [ -f "package-lock.json" ]; then
-            npm audit --audit-level=high || echo "Vulnerabilities found"
+            npm audit --audit-level=high
           fi
           cd -
         done
-      continue-on-error: true
-    
+
     - name: Check licenses
       if: steps.find-projects.outputs.has_projects == 'true'
       run: |
