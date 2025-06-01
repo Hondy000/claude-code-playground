@@ -4,7 +4,7 @@
 # レビュー設定
 reviews:
   # 日本語でのレビューコメント
-  language: "ja"
+  language: "ja-JP"
   
   # レビューの詳細度
   review_level: "detailed"

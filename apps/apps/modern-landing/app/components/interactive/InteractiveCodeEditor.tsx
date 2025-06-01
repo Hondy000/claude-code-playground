@@ -1,10 +1,19 @@
 "use client";
 
+// ============================================================
+// インタラクティブコードエディターコンポーネント
+// ============================================================
+// AIによるコード生成を視覚的に体験できるデモコンポーネント。
+// サイドバーからコード例を選択し、タイプライター効果で
+// コードが生成される様子をアニメーションで表現します。
+// ============================================================
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Sparkles, Code2 } from "lucide-react";
 import TypewriterCode from "./TypewriterCode";
 
+// コード例の型定義
 interface CodeExample {
   id: string;
   title: string;
@@ -13,6 +22,7 @@ interface CodeExample {
   output: string;
 }
 
+// 生成可能なコードのサンプルデータ
 const codeExamples: CodeExample[] = [
   {
     id: "1",
@@ -141,14 +151,17 @@ const codeExamples: CodeExample[] = [
 ];
 
 export default function InteractiveCodeEditor() {
+  // 選択中のコード例と生成状態を管理
   const [selectedExample, setSelectedExample] = useState<CodeExample>(codeExamples[0]);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [showOutput, setShowOutput] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false); // コード生成中かどうか
+  const [showOutput, setShowOutput] = useState(false); // 生成完了メッセージの表示状態
 
+  // コード生成ボタンのクリックハンドラ
   const handleGenerate = () => {
     setIsGenerating(true);
     setShowOutput(false);
     
+    // コードの長さに応じてタイピング時間を計算
     setTimeout(() => {
       setIsGenerating(false);
       setShowOutput(true);

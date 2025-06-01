@@ -1,8 +1,17 @@
 "use client";
 
+// ============================================================
+// 3Dカードコンポーネント
+// ============================================================
+// マウスの動きに応じて立体的に回転するカードコンポーネント。
+// Framer Motionの3Dトランスフォームを使用して、
+// ホバー時のインタラクティブな効果を実現します。
+// ============================================================
+
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
+// コンポーネントのProps型定義
 interface Card3DProps {
   children: React.ReactNode;
   className?: string;
@@ -12,12 +21,15 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  // マウス位置のトラッキング用のmotion値
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
+  // スプリングアニメーションでスムーズな動きを実現
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
+  // マウス位置に基づいた回転角度の計算
   const rotateX = useTransform(
     mouseYSpring,
     [-0.5, 0.5],
@@ -29,20 +41,24 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
     ["-17.5deg", "17.5deg"]
   );
 
-  // Create reactive gradient positions
+  // グラデーション位置のリアクティブな計算
   const gradientX = useTransform(mouseXSpring, [-0.5, 0.5], [0, 100]);
   const gradientY = useTransform(mouseYSpring, [-0.5, 0.5], [0, 100]);
 
+  // マウス移動時のハンドラ
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
 
+    // カードの位置とサイズを取得
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
 
+    // マウスの相対位置を計算
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
+    // -0.5から0.5の範囲に正規化
     const xPct = mouseX / width - 0.5;
     const yPct = mouseY / height - 0.5;
 
@@ -50,9 +66,10 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
     y.set(yPct);
   };
 
+  // マウスがカードから離れた時のハンドラ
   const handleMouseLeave = () => {
     setIsHovered(false);
-    x.set(0);
+    x.set(0); // 回転をリセット
     y.set(0);
   };
 

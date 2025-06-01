@@ -1,15 +1,26 @@
 "use client";
 
+// ============================================================
+// 音声入力シミュレーターコンポーネント
+// ============================================================
+// VibeCodingの音声入力機能を体験できるインタラクティブなデモ。
+// マイクボタンをクリックすると、音声認識をシミュレートし、
+// サンプルの音声コマンドからコードを生成する動作を再現します。
+// ============================================================
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, Volume2 } from "lucide-react";
 
 export default function VoiceInputSimulator() {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [generatedCode, setGeneratedCode] = useState("");
-  const [soundWaves, setSoundWaves] = useState<number[]>([0.3, 0.5, 0.2, 0.7, 0.4, 0.6, 0.3]);
+  // 音声入力の状態管理
+  const [isListening, setIsListening] = useState(false); // 音声認識中かどうか
+  const [transcript, setTranscript] = useState(""); // 認識されたテキスト
+  const [generatedCode, setGeneratedCode] = useState(""); // 生成されたコード
+  const [soundWaves, setSoundWaves] = useState<number[]>([0.3, 0.5, 0.2, 0.7, 0.4, 0.6, 0.3]); // 音波アニメーション用
 
+  // 音声コマンドのサンプルデータ
+  // 実際のVibeCodingで使えるようなコマンド例を定義
   const sampleCommands = [
     {
       voice: "ダークモードトグルボタンを作って",
@@ -59,20 +70,25 @@ export default function VoiceInputSimulator() {
     }
   ];
 
+  // 音声認識シミュレーションのロジック
   useEffect(() => {
     if (isListening) {
+      // 音波アニメーションの更新（100msごと）
       const interval = setInterval(() => {
         setSoundWaves(prev => 
           prev.map(() => Math.random() * 0.8 + 0.2)
         );
       }, 100);
 
+      // ランダムにコマンドを選択
       const randomCommand = sampleCommands[Math.floor(Math.random() * sampleCommands.length)];
       
+      // 1.5秒後に音声認識結果を表示
       const voiceTimeout = setTimeout(() => {
         setTranscript(randomCommand.voice);
       }, 1500);
 
+      // 3秒後にコードを生成して音声認識を終了
       const codeTimeout = setTimeout(() => {
         setGeneratedCode(randomCommand.code);
         setIsListening(false);
@@ -88,6 +104,7 @@ export default function VoiceInputSimulator() {
     }
   }, [isListening]);
 
+  // 音声入力開始ハンドラ
   const handleStartListening = () => {
     setIsListening(true);
     setTranscript("");
