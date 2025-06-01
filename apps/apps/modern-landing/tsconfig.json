@@ -1,0 +1,32 @@
+{
+  // TypeScriptコンパイラの設定
+  "compilerOptions": {
+    "target": "ES2017", // コンパイルターゲットのECMAScriptバージョン
+    "lib": ["dom", "dom.iterable", "esnext"], // 使用可能なライブラリ
+    "allowJs": true, // JavaScriptファイルのコンパイルを許可
+    "skipLibCheck": true, // 型定義ファイルのチェックをスキップ
+    "strict": true, // 厳格な型チェックを有効化
+    "noEmit": true, // JavaScriptファイルを出力しない（Next.jsが処理）
+    "esModuleInterop": true, // CommonJSモジュールとの互換性
+    "module": "esnext", // モジュールシステム
+    "moduleResolution": "bundler", // モジュール解決方法
+    "resolveJsonModule": true, // JSONファイルのインポートを許可
+    "isolatedModules": true, // 各ファイルを独立したモジュールとして処理
+    "jsx": "preserve", // JSXをそのまま保持（Next.jsが処理）
+    "incremental": true, // インクリメンタルコンパイルを有効化
+    // Next.js用のTypeScriptプラグイン
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // パスエイリアスの設定
+    "paths": {
+      "@/*": ["./*"] // @/でプロジェクトルートからのパスを参照
+    }
+  },
+  // コンパイル対象のファイル
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  // コンパイルから除外するファイル
+  "exclude": ["node_modules"]
+}

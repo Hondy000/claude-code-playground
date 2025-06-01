@@ -1,10 +1,10 @@
 # CodeRabbit設定ファイル
 # パブリックリポジトリ用の無料プラン設定
 
+language: "ja-JP"
+
 # レビュー設定
 reviews:
-  # 日本語でのレビューコメント
-  language: "ja"
   
   # レビューの詳細度
   review_level: "detailed"
