@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { Mic, Zap, Code, Keyboard, Brain, Headphones, Sparkles, Music } from "lucide-react";
 import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import VoiceInputSimulator from "./components/interactive/VoiceInputSimulator";
+import InteractiveCodeEditor from "./components/interactive/InteractiveCodeEditor";
+import Card3D from "./components/interactive/Card3D";
+import ParticleBackground from "./components/interactive/ParticleBackground";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,7 +57,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ParticleBackground />
       {/* Navigation */}
       <motion.nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -199,18 +204,20 @@ export default function Home() {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="bg-card p-6 rounded-xl border border-border hover:border-primary transition-colors"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <Card3D className="h-full">
+                  <div className="bg-card p-6 rounded-xl border border-border hover:border-primary transition-colors h-full">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground">{feature.description}</p>
+                  </div>
+                </Card3D>
               </motion.div>
             ))}
           </div>
@@ -323,6 +330,52 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Interactive Demo Section */}
+      <section className="py-20 px-4 sm:px-6">
+        <div className="container mx-auto">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold mb-4">
+              インタラクティブな{" "}
+              <span className="gradient-primary">開発体験</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              実際に音声入力やコード生成を体験してみましょう
+            </p>
+          </motion.div>
+
+          <div className="space-y-20">
+            {/* Voice Input Simulator */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <VoiceInputSimulator />
+            </motion.div>
+
+            {/* Interactive Code Editor */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-2xl font-bold text-center mb-8">
+                AIがコードを生成する様子を見てみよう
+              </h3>
+              <InteractiveCodeEditor />
+            </motion.div>
+          </div>
         </div>
       </section>
 
