@@ -29,6 +29,10 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
     ["-17.5deg", "17.5deg"]
   );
 
+  // Create reactive gradient positions
+  const gradientX = useTransform(mouseXSpring, [-0.5, 0.5], [0, 100]);
+  const gradientY = useTransform(mouseYSpring, [-0.5, 0.5], [0, 100]);
+
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
 
@@ -88,7 +92,10 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
-          background: `radial-gradient(600px circle at ${x.get() * 100 + 50}% ${y.get() * 100 + 50}%, rgba(255,255,255,0.1), transparent 40%)`,
+          background: useTransform(
+            [gradientX, gradientY],
+            ([x, y]) => `radial-gradient(600px circle at ${x + 50}% ${y + 50}%, rgba(255,255,255,0.1), transparent 40%)`
+          ),
         }}
       />
     </motion.div>

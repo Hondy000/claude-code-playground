@@ -16,7 +16,7 @@ export default function Home() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -203,7 +203,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
-                key={index}
+                key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -247,7 +247,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <motion.div
-                key={index}
+                key={benefit.title}
                 className="text-center"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -422,6 +422,7 @@ export default function Home() {
             <div className="flex gap-6">
               <motion.a
                 href="#"
+                aria-label="GitHub"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -430,6 +431,7 @@ export default function Home() {
               </motion.a>
               <motion.a
                 href="#"
+                aria-label="Twitter"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -438,6 +440,7 @@ export default function Home() {
               </motion.a>
               <motion.a
                 href="#"
+                aria-label="LinkedIn"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}

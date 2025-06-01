@@ -14,6 +14,13 @@ export default function TypewriterCode({ code, speed = 30, onComplete }: Typewri
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
 
+  // Reset state when code prop changes
+  useEffect(() => {
+    setDisplayedCode("");
+    setCurrentIndex(0);
+    setShowCursor(true);
+  }, [code]);
+
   useEffect(() => {
     if (currentIndex < code.length) {
       const timeout = setTimeout(() => {
@@ -36,18 +43,55 @@ export default function TypewriterCode({ code, speed = 30, onComplete }: Typewri
   }, []);
 
   const highlightSyntax = (text: string) => {
-    const keywords = /\b(const|let|var|function|return|if|else|for|while|class|import|export|from|default)\b/g;
-    const strings = /(["'`])(?:(?=(\\?))\2.)*?\1/g;
-    const comments = /(\/\/.*$|\/\*[\s\S]*?\*\/)/gm;
-    const functions = /\b(\w+)(?=\()/g;
-    const numbers = /\b(\d+)\b/g;
+    // First, escape HTML to prevent XSS
+    const escapeHtml = (str: string) => {
+      const htmlEscapes: { [key: string]: string } = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '/': '&#x2F;'
+      };
+      return str.replace(/[&<>"'/]/g, (match) => htmlEscapes[match]);
+    };
 
-    let highlighted = text
-      .replace(strings, '<span class="text-green-500">$&</span>')
-      .replace(comments, '<span class="text-gray-500">$&</span>')
-      .replace(keywords, '<span class="text-purple-500 font-semibold">$&</span>')
-      .replace(functions, '<span class="text-blue-500">$&</span>')
-      .replace(numbers, '<span class="text-orange-500">$&</span>');
+    // Escape the input text
+    let highlighted = escapeHtml(text);
+
+    // Optimized regex patterns
+    const patterns = [
+      // Process comments first (highest priority)
+      {
+        regex: /(&#x2F;&#x2F;.*$|&#x2F;\*[\s\S]*?\*&#x2F;)/gm,
+        replacement: '<span class="text-gray-500">$1</span>'
+      },
+      // Keywords
+      {
+        regex: /\b(const|let|var|function|return|if|else|for|while|class|import|export|from|default)\b/g,
+        replacement: '<span class="text-purple-500 font-semibold">$1</span>'
+      },
+      // Numbers
+      {
+        regex: /\b(\d+(?:\.\d+)?)\b/g,
+        replacement: '<span class="text-orange-500">$1</span>'
+      },
+      // Functions (must come before strings to avoid conflicts)
+      {
+        regex: /\b(\w+)(?=\()/g,
+        replacement: '<span class="text-blue-500">$1</span>'
+      },
+      // Strings (process last to avoid incorrect overlaps)
+      {
+        regex: /(&quot;|&#x27;|`)(?:(?=(\\?))\2.)*?\1/g,
+        replacement: '<span class="text-green-500">$&</span>'
+      }
+    ];
+
+    // Apply patterns in order
+    patterns.forEach(({ regex, replacement }) => {
+      highlighted = highlighted.replace(regex, replacement);
+    });
 
     return highlighted;
   };
