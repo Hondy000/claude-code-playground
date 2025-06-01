@@ -295,6 +295,9 @@ export default function Home() {
               実際の操作を{" "}
               <span className="gradient-primary">体験</span>
             </h2>
+            <p className="text-sm text-muted-foreground/70 italic mb-6">
+              ※ このセクションで表示されるコード例はイメージです
+            </p>
             <div className="bg-card rounded-xl border border-border p-8">
               <div className="space-y-6">
                 <motion.div
@@ -323,7 +326,7 @@ export default function Home() {
                     <Code className="w-6 h-6" />
                   </div>
                   <div className="text-left flex-1">
-                    <p className="text-muted-foreground">AIが雰囲気を読み取ってコード生成...</p>
+                    <p className="text-muted-foreground">AIが雰囲気を読み取ってコード生成...（イメージ）</p>
                     <pre className="bg-background/50 p-2 rounded mt-2 text-sm overflow-x-auto">
 {`const ModernButton = ({ children, onClick }) => {
   return (

@@ -173,6 +173,9 @@ export default function InteractiveCodeEditor() {
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1 space-y-4">
           <h3 className="text-xl font-bold mb-4">コード例を選択</h3>
+          <p className="text-sm text-muted-foreground/70 italic mb-4">
+            ※ 生成されるコードはイメージです
+          </p>
           {codeExamples.map((example) => (
             <motion.button
               key={example.id}

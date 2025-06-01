@@ -119,6 +119,9 @@ export default function VoiceInputSimulator() {
           <p className="text-muted-foreground mb-6">
             マイクボタンをクリックして、音声でコードを生成してみましょう
           </p>
+          <p className="text-sm text-muted-foreground/70 italic">
+            ※ このデモはイメージです。実際の音声認識・コード生成結果とは異なります。
+          </p>
         </div>
 
         <div className="flex justify-center">

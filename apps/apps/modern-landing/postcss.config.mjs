@@ -7,7 +7,7 @@
 
 export default {
   plugins: {
-    tailwindcss: {}, // Tailwind CSSの処理
+    '@tailwindcss/postcss': {}, // Tailwind CSS v4用のPostCSSプラグイン
     autoprefixer: {}, // ブラウザプレフィックスを自動付与
   },
 }
