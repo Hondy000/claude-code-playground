@@ -85,6 +85,8 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
         transformStyle: "preserve-3d",
       }}
       className={`relative ${className}`}
+      role="presentation"
+      aria-hidden="false"
     >
       <div
         style={{

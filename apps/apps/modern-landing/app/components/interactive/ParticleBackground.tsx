@@ -149,6 +149,8 @@ export default function ParticleBackground() {
         background: "transparent",
         mixBlendMode: "screen"
       }}
+      aria-hidden="true"
+      role="presentation"
     />
   );
 }

@@ -135,6 +135,8 @@ export default function VoiceInputSimulator() {
             }`}
             whileHover={!isListening ? { scale: 1.05 } : {}}
             whileTap={!isListening ? { scale: 0.95 } : {}}
+            aria-label={isListening ? "音声認識中" : "音声入力を開始"}
+            aria-pressed={isListening}
           >
             <AnimatePresence mode="wait">
               {isListening ? (
@@ -145,7 +147,7 @@ export default function VoiceInputSimulator() {
                   exit={{ scale: 0 }}
                   className="relative"
                 >
-                  <MicOff className="w-12 h-12 text-red-500" />
+                  <MicOff className="w-12 h-12 text-red-500" aria-hidden="true" />
                   <div className="absolute -inset-4">
                     <div className="flex gap-1 h-full items-center justify-center">
                       {soundWaves.map((height, i) => (
@@ -154,6 +156,7 @@ export default function VoiceInputSimulator() {
                           className="w-1 bg-red-500 rounded-full"
                           animate={{ height: `${height * 40}px` }}
                           transition={{ duration: 0.1 }}
+                          aria-hidden="true"
                         />
                       ))}
                     </div>
@@ -166,7 +169,7 @@ export default function VoiceInputSimulator() {
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                 >
-                  <Mic className="w-12 h-12 text-primary" />
+                  <Mic className="w-12 h-12 text-primary" aria-hidden="true" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -180,9 +183,11 @@ export default function VoiceInputSimulator() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="bg-background/50 rounded-lg p-4"
+              role="status"
+              aria-live="polite"
             >
               <div className="flex items-center gap-2 mb-2">
-                <Volume2 className="w-4 h-4 text-primary" />
+                <Volume2 className="w-4 h-4 text-primary" aria-hidden="true" />
                 <span className="text-sm font-medium">音声認識結果:</span>
               </div>
               <p className="text-lg">{transcript}</p>
@@ -197,6 +202,8 @@ export default function VoiceInputSimulator() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="bg-background/50 rounded-lg p-4"
+              role="region"
+              aria-label="生成されたコード"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium">生成されたコード:</span>
@@ -205,6 +212,7 @@ export default function VoiceInputSimulator() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigator.clipboard.writeText(generatedCode)}
+                  aria-label="コードをクリップボードにコピー"
                 >
                   コピー
                 </motion.button>

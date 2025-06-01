@@ -190,9 +190,11 @@ export default function InteractiveCodeEditor() {
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              aria-label={`${example.title}を選択`}
+              aria-pressed={selectedExample.id === example.id}
             >
               <div className="flex items-start gap-3">
-                <Code2 className="w-5 h-5 text-primary mt-0.5" />
+                <Code2 className="w-5 h-5 text-primary mt-0.5" aria-hidden="true" />
                 <div>
                   <h4 className="font-semibold">{example.title}</h4>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -213,15 +215,17 @@ export default function InteractiveCodeEditor() {
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={!isGenerating ? { scale: 1.05 } : {}}
               whileTap={!isGenerating ? { scale: 0.95 } : {}}
+              aria-label={isGenerating ? "コード生成中" : "コードを生成する"}
+              aria-busy={isGenerating}
             >
               {isGenerating ? (
                 <>
-                  <Sparkles className="w-4 h-4 animate-spin" />
+                  <Sparkles className="w-4 h-4 animate-spin" aria-hidden="true" />
                   生成中...
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4" />
+                  <Play className="w-4 h-4" aria-hidden="true" />
                   コード生成
                 </>
               )}
@@ -248,9 +252,11 @@ export default function InteractiveCodeEditor() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 className="bg-green-500/10 border border-green-500/30 rounded-lg p-4"
+                role="status"
+                aria-live="polite"
               >
                 <div className="flex items-center gap-3">
-                  <Sparkles className="w-5 h-5 text-green-500" />
+                  <Sparkles className="w-5 h-5 text-green-500" aria-hidden="true" />
                   <p className="font-medium text-green-500">
                     {selectedExample.output}
                   </p>

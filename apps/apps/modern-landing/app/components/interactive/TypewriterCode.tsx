@@ -97,8 +97,8 @@ export default function TypewriterCode({ code, speed = 30, onComplete }: Typewri
   };
 
   return (
-    <div className="relative">
-      <pre className="text-sm md:text-base overflow-x-auto p-4 bg-gray-900 rounded-lg">
+    <div className="relative" role="region" aria-live="polite" aria-label="タイプライター効果でコードを表示">
+      <pre className="text-sm md:text-base overflow-x-auto p-4 bg-gray-900 rounded-lg" aria-label="コードスニペット">
         <code 
           dangerouslySetInnerHTML={{ 
             __html: highlightSyntax(displayedCode) 
@@ -110,6 +110,7 @@ export default function TypewriterCode({ code, speed = 30, onComplete }: Typewri
           }`}
           animate={{ opacity: showCursor ? 1 : 0 }}
           transition={{ duration: 0.1 }}
+          aria-hidden="true"
         />
       </pre>
     </div>
