@@ -1,0 +1,32 @@
+{
+  "name": "bun-demo",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "server": "bun run server.ts",
+    "api": "bun run api-server.ts",
+    "chat": "bun run websocket-server.ts",
+    "test": "bun test",
+    "bench": "bun run benchmark.ts",
+    "file-demo": "bun run file-demo.ts",
+    "worker-demo": "bun run worker-demo.ts",
+    "shell": "bun run shell-demo.ts",
+    "build": "bun run build.ts",
+    "dev": "bun --hot run server.ts",
+    "react-dev": "bun --hot ./react-app/index.html"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
