@@ -103,11 +103,10 @@ export default function Card3D({ children, className = '' }: Card3DProps) {
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
-          background: useTransform(
-            [gradientX, gradientY],
-            ([x, y]: [number, number]) =>
-              `radial-gradient(600px circle at ${x + 50}% ${y + 50}%, rgba(255,255,255,0.1), transparent 40%)`,
-          ),
+          background: useTransform([gradientX, gradientY], (latest: number[]) => {
+            const [x, y] = latest;
+            return `radial-gradient(600px circle at ${x + 50}% ${y + 50}%, rgba(255,255,255,0.1), transparent 40%)`;
+          }),
         }}
       />
     </motion.div>
