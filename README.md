@@ -1,6 +1,9 @@
 # Claude Code Playground
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/Hondy000/claude-code-playground)
+[![Python Tests](https://github.com/Hondy000/claude-code-playground/actions/workflows/python-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/python-tests.yml)
+[![Node.js CI](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml)
+[![All Tests](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml)
 
 Claude
 Codeの機能をテストするための開発環境です。複数のミニアプリケーションを管理するプロジェクト構造になっています。
@@ -87,3 +90,7 @@ pip install -r requirements-dev.txt
 - Webサイトの取得・解析
 - ディレクトリ構造の操作
 - その他の開発タスク
+
+## ドキュメント
+
+- [Claude Codeのセッション管理とログ活用ガイド](docs/claude_code_session_issue.md) - セッション復旧とログ分析の方法
