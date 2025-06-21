@@ -1,0 +1,13 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`スナップショットテスト オブジェクトのスナップショット 1`] = `
+{
+  "features": [
+    "fast",
+    "typescript",
+    "test-runner",
+  ],
+  "name": "Bun Test",
+  "version": "1.0.0",
+}
+`;

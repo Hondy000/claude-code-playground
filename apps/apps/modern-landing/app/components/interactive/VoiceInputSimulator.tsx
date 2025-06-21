@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // ============================================================
 // 音声入力シミュレーターコンポーネント
@@ -8,22 +8,22 @@
 // サンプルの音声コマンドからコードを生成する動作を再現します。
 // ============================================================
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, Volume2 } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mic, MicOff, Volume2 } from 'lucide-react';
 
 export default function VoiceInputSimulator() {
   // 音声入力の状態管理
   const [isListening, setIsListening] = useState(false); // 音声認識中かどうか
-  const [transcript, setTranscript] = useState(""); // 認識されたテキスト
-  const [generatedCode, setGeneratedCode] = useState(""); // 生成されたコード
+  const [transcript, setTranscript] = useState(''); // 認識されたテキスト
+  const [generatedCode, setGeneratedCode] = useState(''); // 生成されたコード
   const [soundWaves, setSoundWaves] = useState<number[]>([0.3, 0.5, 0.2, 0.7, 0.4, 0.6, 0.3]); // 音波アニメーション用
 
   // 音声コマンドのサンプルデータ
   // 実際のVibeCodingで使えるようなコマンド例を定義
   const sampleCommands = [
     {
-      voice: "ダークモードトグルボタンを作って",
+      voice: 'ダークモードトグルボタンを作って',
       code: `const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(false);
   
@@ -35,10 +35,10 @@ export default function VoiceInputSimulator() {
       {isDark ? '🌙' : '☀️'}
     </button>
   );
-};`
+};`,
     },
     {
-      voice: "モダンなカードコンポーネントを生成",
+      voice: 'モダンなカードコンポーネントを生成',
       code: `const ModernCard = ({ title, description, image }) => {
   return (
     <div className="group relative overflow-hidden rounded-2xl 
@@ -54,10 +54,10 @@ export default function VoiceInputSimulator() {
                       group-hover:opacity-100 transition-opacity" />
     </div>
   );
-};`
+};`,
     },
     {
-      voice: "アニメーション付きのローディングスピナー",
+      voice: 'アニメーション付きのローディングスピナー',
       code: `const LoadingSpinner = () => {
   return (
     <div className="flex items-center justify-center">
@@ -66,8 +66,8 @@ export default function VoiceInputSimulator() {
                       border-t-blue-600" />
     </div>
   );
-};`
-    }
+};`,
+    },
   ];
 
   // 音声認識シミュレーションのロジック
@@ -75,14 +75,12 @@ export default function VoiceInputSimulator() {
     if (isListening) {
       // 音波アニメーションの更新（100msごと）
       const interval = setInterval(() => {
-        setSoundWaves(prev => 
-          prev.map(() => Math.random() * 0.8 + 0.2)
-        );
+        setSoundWaves((prev) => prev.map(() => Math.random() * 0.8 + 0.2));
       }, 100);
 
       // ランダムにコマンドを選択
       const randomCommand = sampleCommands[Math.floor(Math.random() * sampleCommands.length)];
-      
+
       // 1.5秒後に音声認識結果を表示
       const voiceTimeout = setTimeout(() => {
         setTranscript(randomCommand.voice);
@@ -107,8 +105,8 @@ export default function VoiceInputSimulator() {
   // 音声入力開始ハンドラ
   const handleStartListening = () => {
     setIsListening(true);
-    setTranscript("");
-    setGeneratedCode("");
+    setTranscript('');
+    setGeneratedCode('');
   };
 
   return (
@@ -129,13 +127,13 @@ export default function VoiceInputSimulator() {
             onClick={handleStartListening}
             disabled={isListening}
             className={`relative p-8 rounded-full transition-all ${
-              isListening 
-                ? "bg-red-500/20 cursor-not-allowed" 
-                : "bg-primary/10 hover:bg-primary/20 cursor-pointer"
+              isListening
+                ? 'bg-red-500/20 cursor-not-allowed'
+                : 'bg-primary/10 hover:bg-primary/20 cursor-pointer'
             }`}
             whileHover={!isListening ? { scale: 1.05 } : {}}
             whileTap={!isListening ? { scale: 0.95 } : {}}
-            aria-label={isListening ? "音声認識中" : "音声入力を開始"}
+            aria-label={isListening ? '音声認識中' : '音声入力を開始'}
             aria-pressed={isListening}
           >
             <AnimatePresence mode="wait">

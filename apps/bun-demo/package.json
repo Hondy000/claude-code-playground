@@ -14,8 +14,15 @@
     "worker-demo": "bun run worker-demo.ts",
     "shell": "bun run shell-demo.ts",
     "build": "bun run build.ts",
+    "build:react": "bun run build.ts production",
     "dev": "bun --hot run server.ts",
-    "react-dev": "bun --hot ./react-app/index.html"
+    "react-dev": "bun --hot ./react-app/index.html",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "ci": "bun run typecheck && bun test && bun run lint"
   },
   "devDependencies": {
     "@types/bun": "latest"

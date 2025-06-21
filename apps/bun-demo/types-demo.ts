@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // TypeScriptの型安全性を活かしたBunのデモ
 
 // 型定義
@@ -5,7 +6,7 @@ interface User {
   id: number;
   name: string;
   email: string;
-  role: "admin" | "user" | "guest";
+  role: 'admin' | 'user' | 'guest';
   createdAt: Date;
 }
 
@@ -20,17 +21,17 @@ interface ApiResponse<T> {
 const users: User[] = [
   {
     id: 1,
-    name: "田中太郎",
-    email: "tanaka@example.com",
-    role: "admin",
-    createdAt: new Date("2024-01-01"),
+    name: '田中太郎',
+    email: 'tanaka@example.com',
+    role: 'admin',
+    createdAt: new Date('2024-01-01'),
   },
   {
     id: 2,
-    name: "鈴木花子",
-    email: "suzuki@example.com",
-    role: "user",
-    createdAt: new Date("2024-02-15"),
+    name: '鈴木花子',
+    email: 'suzuki@example.com',
+    role: 'user',
+    createdAt: new Date('2024-02-15'),
   },
 ];
 
@@ -45,11 +46,11 @@ function createApiResponse<T>(data?: T, error?: string): ApiResponse<T> {
 }
 
 // バリデーション関数（型ガード）
-function isValidUser(data: any): data is Omit<User, "id" | "createdAt"> {
+function isValidUser(data: any): data is Omit<User, 'id' | 'createdAt'> {
   return (
-    typeof data.name === "string" &&
-    typeof data.email === "string" &&
-    ["admin", "user", "guest"].includes(data.role)
+    typeof data.name === 'string' &&
+    typeof data.email === 'string' &&
+    ['admin', 'user', 'guest'].includes(data.role)
   );
 }
 
@@ -59,60 +60,62 @@ const server = Bun.serve({
   async fetch(request): Promise<Response> {
     const url = new URL(request.url);
     const method = request.method;
-    
+
     // ヘッダーを型で定義
     const headers: HeadersInit = {
-      "Content-Type": "application/json",
-      "X-Powered-By": "Bun with TypeScript",
+      'Content-Type': 'application/json',
+      'X-Powered-By': 'Bun with TypeScript',
     };
-    
+
     try {
       // ユーザー一覧取得
-      if (url.pathname === "/api/users" && method === "GET") {
+      if (url.pathname === '/api/users' && method === 'GET') {
         const response = createApiResponse(users);
         return Response.json(response, { headers });
       }
-      
+
       // ユーザー詳細取得
-      if (url.pathname.match(/^\/api\/users\/\d+$/) && method === "GET") {
-        const id = parseInt(url.pathname.split("/").pop()!);
-        const user = users.find(u => u.id === id);
-        
+      if (url.pathname.match(/^\/api\/users\/\d+$/) && method === 'GET') {
+        const id = parseInt(url.pathname.split('/').pop()!);
+        const user = users.find((u) => u.id === id);
+
         if (!user) {
-          const response = createApiResponse<User>(undefined, "User not found");
+          const response = createApiResponse<User>(undefined, 'User not found');
           return Response.json(response, { status: 404, headers });
         }
-        
+
         const response = createApiResponse(user);
         return Response.json(response, { headers });
       }
-      
+
       // ユーザー作成
-      if (url.pathname === "/api/users" && method === "POST") {
+      if (url.pathname === '/api/users' && method === 'POST') {
         const body = await request.json();
-        
+
         if (!isValidUser(body)) {
-          const response = createApiResponse<User>(undefined, "Invalid user data");
+          const response = createApiResponse<User>(undefined, 'Invalid user data');
           return Response.json(response, { status: 400, headers });
         }
-        
+
         const newUser: User = {
           id: users.length + 1,
           ...body,
           createdAt: new Date(),
         };
-        
+
         users.push(newUser);
         const response = createApiResponse(newUser);
         return Response.json(response, { status: 201, headers });
       }
-      
+
       // 404
-      const response = createApiResponse(undefined, "Endpoint not found");
+      const response = createApiResponse(undefined, 'Endpoint not found');
       return Response.json(response, { status: 404, headers });
-      
     } catch (error) {
-      const response = createApiResponse(undefined, error instanceof Error ? error.message : "Internal server error");
+      const response = createApiResponse(
+        undefined,
+        error instanceof Error ? error.message : 'Internal server error',
+      );
       return Response.json(response, { status: 500, headers });
     }
   },

@@ -1,26 +1,28 @@
+/* eslint-disable no-console */
 // WebSocketチャットサーバー
+import { config } from './config';
 interface ChatMessage {
   id: string;
   username: string;
   message: string;
   timestamp: string;
-  type: "message" | "join" | "leave" | "system";
+  type: 'message' | 'join' | 'leave' | 'system';
 }
 
 interface User {
   id: string;
   username: string;
-  ws: any; // WebSocket instance
+  ws: any; // Bun WebSocket instance - 型定義が複雑なためanyを使用
 }
 
 const users = new Map<string, User>();
 const messageHistory: ChatMessage[] = [];
-const MAX_HISTORY = 50;
+const MAX_HISTORY = config.websocket.maxHistory;
 
 // ユーザー名生成
 function generateUsername(): string {
-  const adjectives = ["Happy", "Lucky", "Sunny", "Cool", "Swift"];
-  const animals = ["Cat", "Dog", "Fox", "Bear", "Bird"];
+  const adjectives = ['Happy', 'Lucky', 'Sunny', 'Cool', 'Swift'];
+  const animals = ['Cat', 'Dog', 'Fox', 'Bear', 'Bird'];
   const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
   const animal = animals[Math.floor(Math.random() * animals.length)];
   return `${adj}${animal}${Math.floor(Math.random() * 1000)}`;
@@ -29,13 +31,13 @@ function generateUsername(): string {
 // メッセージをブロードキャスト
 function broadcast(message: ChatMessage, excludeId?: string) {
   const data = JSON.stringify(message);
-  
+
   for (const [userId, user] of users) {
     if (userId !== excludeId) {
       user.ws.send(data);
     }
   }
-  
+
   // 履歴に追加
   messageHistory.push(message);
   if (messageHistory.length > MAX_HISTORY) {
@@ -45,133 +47,137 @@ function broadcast(message: ChatMessage, excludeId?: string) {
 
 // オンラインユーザーリストを送信
 function sendUserList() {
-  const userList = Array.from(users.values()).map(u => ({
+  const userList = Array.from(users.values()).map((u) => ({
     id: u.id,
-    username: u.username
+    username: u.username,
   }));
-  
+
   const message = JSON.stringify({
-    type: "userList",
-    users: userList
+    type: 'userList',
+    users: userList,
   });
-  
+
   for (const user of users.values()) {
     user.ws.send(message);
   }
 }
 
 const server = Bun.serve({
-  port: 3003,
-  
+  port: config.ports.websocket,
+
   fetch(req, server) {
     const url = new URL(req.url);
-    
+
     // WebSocketアップグレード
-    if (url.pathname === "/chat") {
+    if (url.pathname === '/chat') {
       const success = server.upgrade(req);
       if (success) {
         return undefined;
       }
     }
-    
+
     // チャットクライアントHTML
-    if (url.pathname === "/") {
+    if (url.pathname === '/') {
       return new Response(chatClientHTML, {
-        headers: { "Content-Type": "text/html; charset=utf-8" }
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
     }
-    
-    return new Response("Not Found", { status: 404 });
+
+    return new Response('Not Found', { status: 404 });
   },
-  
+
   websocket: {
     open(ws) {
       const userId = crypto.randomUUID();
       const username = generateUsername();
-      
+
       users.set(userId, { id: userId, username, ws });
-      
+
       // 接続情報を保存
       ws.data = { userId, username };
-      
+
       // 履歴を送信
-      ws.send(JSON.stringify({
-        type: "history",
-        messages: messageHistory
-      }));
-      
+      ws.send(
+        JSON.stringify({
+          type: 'history',
+          messages: messageHistory,
+        }),
+      );
+
       // 参加メッセージ
       const joinMessage: ChatMessage = {
         id: crypto.randomUUID(),
-        username: "System",
+        username: 'System',
         message: `${username} が参加しました`,
         timestamp: new Date().toISOString(),
-        type: "join"
+        type: 'join',
       };
       broadcast(joinMessage);
-      
+
       // 自分の情報を送信
-      ws.send(JSON.stringify({
-        type: "welcome",
-        userId,
-        username
-      }));
-      
+      ws.send(
+        JSON.stringify({
+          type: 'welcome',
+          userId,
+          username,
+        }),
+      );
+
       // ユーザーリスト更新
       sendUserList();
-      
+
       console.log(`👤 ${username} が接続しました`);
     },
-    
+
     message(ws, message) {
-      const { userId, username } = ws.data;
-      
+      const { userId, username } = ws.data as { userId: string; username: string };
+
       try {
         const data = JSON.parse(message.toString());
-        
-        if (data.type === "message" && data.text) {
+
+        if (data.type === 'message' && data.text) {
           const chatMessage: ChatMessage = {
             id: crypto.randomUUID(),
             username,
             message: data.text,
             timestamp: new Date().toISOString(),
-            type: "message"
+            type: 'message',
           };
-          
+
           // 自分にも送信
           ws.send(JSON.stringify(chatMessage));
-          
+
           // 他のユーザーにブロードキャスト
           broadcast(chatMessage, userId);
-          
+
           console.log(`💬 ${username}: ${data.text}`);
         }
       } catch (error) {
-        console.error("メッセージ処理エラー:", error);
+        console.error('メッセージ処理エラー:', error);
       }
     },
-    
+
     close(ws) {
-      const { userId, username } = ws.data;
-      
+      const { userId, username } = ws.data as { userId: string; username: string };
+
       users.delete(userId);
-      
+
       // 退出メッセージ
       const leaveMessage: ChatMessage = {
         id: crypto.randomUUID(),
-        username: "System",
+        username: 'System',
         message: `${username} が退出しました`,
         timestamp: new Date().toISOString(),
-        type: "leave"
+        type: 'leave',
       };
       broadcast(leaveMessage);
-      
+
       // ユーザーリスト更新
       sendUserList();
-      
+
       console.log(`👋 ${username} が切断しました`);
-    }
-  }
+    },
+  },
 });
 
 // チャットクライアントHTML
@@ -392,7 +398,7 @@ const chatClientHTML = `
     const statusEl = document.querySelector('.connection-status');
     
     function connect() {
-      ws = new WebSocket('ws://localhost:3003/chat');
+      ws = new WebSocket((location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/chat');
       
       ws.onopen = () => {
         console.log('WebSocket接続成功');
@@ -426,8 +432,8 @@ const chatClientHTML = `
         messageInput.disabled = true;
         sendButton.disabled = true;
         
-        // 3秒後に再接続
-        setTimeout(connect, 3000);
+        // 設定された遅延後に再接続
+        setTimeout(connect, ${config.websocket.reconnectDelay});
       };
       
       ws.onerror = (error) => {

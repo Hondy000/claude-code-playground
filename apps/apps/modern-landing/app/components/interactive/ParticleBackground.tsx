@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // ============================================================
 // パーティクル背景コンポーネント
@@ -8,8 +8,8 @@
 // パーティクル間の接続線を描画して動的な背景を演出します。
 // ============================================================
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 // パーティクルの型定義
 interface Particle {
@@ -31,7 +31,7 @@ export default function ParticleBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     // キャンバスのサイズをウィンドウサイズに合わせる
@@ -52,7 +52,7 @@ export default function ParticleBackground() {
           vx: (Math.random() - 0.5) * 0.5, // ランダムな速度
           vy: (Math.random() - 0.5) * 0.5,
           radius: Math.random() * 2 + 1, // 1〜3のランダムな半径
-          color: `hsla(${Math.random() * 60 + 200}, 70%, 50%, 0.3)` // 青系の色
+          color: `hsla(${Math.random() * 60 + 200}, 70%, 50%, 0.3)`, // 青系の色
         });
       }
     };
@@ -61,7 +61,7 @@ export default function ParticleBackground() {
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
         x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        y: e.clientY - rect.top,
       };
     };
 
@@ -122,20 +122,20 @@ export default function ParticleBackground() {
       createParticles();
     };
 
-     resizeCanvas();
-     createParticles();
-     animate();
+    resizeCanvas();
+    createParticles();
+    animate();
 
-    window.addEventListener("resize", handleResize);
-     canvas.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('mousemove', handleMouseMove);
 
-     return () => {
-      window.removeEventListener("resize", handleResize);
-       canvas.removeEventListener("mousemove", handleMouseMove);
-       if (animationRef.current) {
-         cancelAnimationFrame(animationRef.current);
-       }
-     };
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -145,9 +145,9 @@ export default function ParticleBackground() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}
-      style={{ 
-        background: "transparent",
-        mixBlendMode: "screen"
+      style={{
+        background: 'transparent',
+        mixBlendMode: 'screen',
       }}
       aria-hidden="true"
       role="presentation"

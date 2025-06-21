@@ -10,7 +10,7 @@ export function multiply(a: number, b: number): number {
 
 export function divide(a: number, b: number): number {
   if (b === 0) {
-    throw new Error("Cannot divide by zero");
+    throw new Error('Cannot divide by zero');
   }
   return a / b;
 }
@@ -19,7 +19,7 @@ export function isPrime(n: number): boolean {
   if (n <= 1) return false;
   if (n <= 3) return true;
   if (n % 2 === 0 || n % 3 === 0) return false;
-  
+
   let i = 5;
   while (i * i <= n) {
     if (n % i === 0 || n % (i + 2) === 0) return false;
@@ -30,7 +30,18 @@ export function isPrime(n: number): boolean {
 
 export function fibonacci(n: number): number {
   if (n <= 1) return n;
-  return fibonacci(n - 1) + fibonacci(n - 2);
+
+  // 反復的アプローチで効率化
+  let prev = 0;
+  let curr = 1;
+
+  for (let i = 2; i <= n; i++) {
+    const temp = curr;
+    curr = prev + curr;
+    prev = temp;
+  }
+
+  return curr;
 }
 
 export function reverseString(str: string): string {
@@ -46,15 +57,15 @@ export function parseJSON<T>(json: string): T | null {
 }
 
 export async function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number
+  wait: number,
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout | null = null;
-  
+
   return (...args: Parameters<T>) => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);

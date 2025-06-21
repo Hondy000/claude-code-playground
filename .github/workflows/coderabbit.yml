@@ -23,26 +23,26 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
-    
+
     steps:
-    - name: Comment setup instructions
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const body = `## 🐰 CodeRabbit AI レビューについて
-          
-          このリポジトリでCodeRabbit AIによる自動コードレビューを有効にするには：
-          
-          1. [CodeRabbit](https://coderabbit.ai)にアクセス
-          2. GitHubアカウントでサインイン
-          3. このリポジトリ（Hondy000/claude-code-playground）を選択してインストール
-          
-          パブリックリポジトリなので**永久無料**で利用できます！`;
-          
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: body
-          });
+      - name: Comment setup instructions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body = `## 🐰 CodeRabbit AI レビューについて
+
+            このリポジトリでCodeRabbit AIによる自動コードレビューを有効にするには：
+
+            1. [CodeRabbit](https://coderabbit.ai)にアクセス
+            2. GitHubアカウントでサインイン
+            3. このリポジトリ（Hondy000/claude-code-playground）を選択してインストール
+
+            パブリックリポジトリなので**永久無料**で利用できます！`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

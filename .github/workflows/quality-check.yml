@@ -1,0 +1,86 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Check formatting with Prettier
+        run: bun run format:check
+
+      - name: ESLint check
+        run: bun run lint
+
+      - name: TypeScript check (root)
+        run: bun run typecheck
+
+  python-lint:
+    name: Python Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black flake8 isort bandit pytest
+
+      - name: Check Python code quality
+        run: |
+          if [ -f "scripts/check-all.sh" ]; then
+            bash scripts/check-all.sh
+          else
+            echo "Python check script not found, running basic checks..."
+            black --check .
+            flake8 . --max-line-length=88 --extend-ignore=E203
+            isort --check-only .
+          fi
+        continue-on-error: true
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy security scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results.sarif"
+        if: always()

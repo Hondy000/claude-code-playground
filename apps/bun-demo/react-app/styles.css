@@ -254,15 +254,15 @@ main {
     width: 95%;
     margin: 20px;
   }
-  
+
   header h1 {
     font-size: 2rem;
   }
-  
+
   .input-section {
     flex-direction: column;
   }
-  
+
   .add-button {
     width: 100%;
   }

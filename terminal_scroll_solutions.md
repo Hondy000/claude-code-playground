@@ -2,9 +2,11 @@
 
 ## 現在の設定オプション
 
-Claude Codeの設定を確認したところ、ターミナルのスクロールを直接制御する設定はありませんでした。
+Claude
+Codeの設定を確認したところ、ターミナルのスクロールを直接制御する設定はありませんでした。
 
 利用可能な設定：
+
 - `verbose`: 詳細出力モード
 - `theme`: UIテーマ（dark/light）
 - `editorMode`: エディタモード
@@ -13,6 +15,7 @@ Claude Codeの設定を確認したところ、ターミナルのスクロール
 ## 解決策
 
 ### 1. 出力をページャーで制御する
+
 ```bash
 # lessを使用して出力を制御
 your_command | less
@@ -25,6 +28,7 @@ your_command | tail -f
 ```
 
 ### 2. 出力をファイルにリダイレクト
+
 ```bash
 # ファイルに保存して後で確認
 your_command > output.log 2>&1
@@ -34,6 +38,7 @@ your_command | tee output.log
 ```
 
 ### 3. Claude Codeの--printオプションを活用
+
 ```bash
 # 非対話的モードで実行（スクロールの問題を回避）
 claude --print "your prompt here"
@@ -43,11 +48,14 @@ claude --print --output-format json "your prompt"
 ```
 
 ### 4. バッファサイズの調整（VS Code統合時）
+
 VS Codeのターミナル設定で以下を調整：
+
 - `terminal.integrated.scrollback`: スクロールバックの行数
 - `terminal.integrated.smoothScrolling`: スムーズスクロール
 
 ### 5. 実行時の工夫
+
 ```bash
 # 出力を分割して確認
 for i in {1..10}; do

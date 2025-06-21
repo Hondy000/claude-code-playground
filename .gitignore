@@ -28,3 +28,50 @@ Thumbs.db
 # Project specific
 *.log
 temp/
+.history/
+
+# Node.js / Bun
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+bun.lockb
+.bun/
+
+# TypeScript
+*.tsbuildinfo
+.tsc-cache/
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+*.min.js
+*.min.css
+
+# Environment
+.env
+.env.local
+.env.production
+.env.test
+
+# Editor
+.eslintcache
+.prettierignore
+
+# CI/CD
+trivy-results.sarif
+.github/workflows/*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.cache

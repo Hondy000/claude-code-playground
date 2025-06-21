@@ -12,6 +12,7 @@
 ### 方法1: 自動起動スクリプト（推奨）
 
 #### Mac/Linux の場合:
+
 ```bash
 git clone https://github.com/Hondy000/claude-code-playground.git
 cd claude-code-playground/apps/apps/modern-landing
@@ -19,6 +20,7 @@ cd claude-code-playground/apps/apps/modern-landing
 ```
 
 #### Windows の場合:
+
 ```cmd
 git clone https://github.com/Hondy000/claude-code-playground.git
 cd claude-code-playground\apps\apps\modern-landing
@@ -75,9 +77,11 @@ modern-landing/
 ## 🎯 使用例
 
 1. **プロジェクトを起動**
+
    - 起動スクリプトを実行するだけ！
 
 2. **カスタマイズ**
+
    - `app/page.tsx` を編集してコンテンツを変更
    - `app/globals.css` でカラーテーマをカスタマイズ
 
@@ -89,7 +93,8 @@ modern-landing/
 
 ## 🤝 コントリビューション
 
-プルリクエストを歓迎します！Vibe Codingの精神で、「なんとなくこんな感じ」のアイデアも大歓迎です。
+プルリクエストを歓迎します！Vibe
+Codingの精神で、「なんとなくこんな感じ」のアイデアも大歓迎です。
 
 ## 📄 ライセンス
 

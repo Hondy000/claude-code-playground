@@ -1,34 +1,36 @@
+/* eslint-disable no-console */
 // Bunの高速HTTPサーバー実装
+import { config } from './config';
 const server = Bun.serve({
-  port: 3000,
+  port: config.ports.http,
   fetch(request) {
     const url = new URL(request.url);
-    
+
     // ルーティング
-    if (url.pathname === "/") {
-      return new Response("Welcome to Bun! 🚀", {
-        headers: { "Content-Type": "text/plain" },
+    if (url.pathname === '/') {
+      return new Response('Welcome to Bun! 🚀', {
+        headers: { 'Content-Type': 'text/plain' },
       });
     }
-    
-    if (url.pathname === "/json") {
+
+    if (url.pathname === '/json') {
       return Response.json({
-        message: "Hello from Bun!",
+        message: 'Hello from Bun!',
         timestamp: new Date().toISOString(),
-        runtime: "Bun",
+        runtime: 'Bun',
         version: Bun.version,
       });
     }
-    
-    if (url.pathname === "/hello") {
-      const name = url.searchParams.get("name") || "World";
+
+    if (url.pathname === '/hello') {
+      const name = url.searchParams.get('name') || 'World';
       return new Response(`Hello, ${name}!`, {
-        headers: { "Content-Type": "text/plain" },
+        headers: { 'Content-Type': 'text/plain' },
       });
     }
-    
+
     // 404
-    return new Response("Not Found", { status: 404 });
+    return new Response('Not Found', { status: 404 });
   },
 });
 
