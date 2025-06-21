@@ -30,4 +30,11 @@ export const config = {
   build: {
     outDir: process.env.BUILD_OUT_DIR || './dist',
   },
+
+  // 環境設定
+  env: {
+    isCI: process.env.CI === 'true',
+    isDevelopment: process.env.NODE_ENV !== 'production',
+    isProduction: process.env.NODE_ENV === 'production',
+  },
 } as const;

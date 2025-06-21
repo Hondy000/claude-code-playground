@@ -1,23 +1,42 @@
 /* eslint-disable no-console */
 // WebSocketチャットサーバー
 import { config } from './config';
-interface ChatMessage {
-  id: string;
-  username: string;
-  message: string;
-  timestamp: string;
-  type: 'message' | 'join' | 'leave' | 'system';
-}
+import type { ChatMessage, User, BunWebSocket, WebSocketMessage } from './types';
 
-interface User {
-  id: string;
-  username: string;
-  ws: any; // Bun WebSocket instance - 型定義が複雑なためanyを使用
-}
+// セキュリティ設定
+const MAX_MESSAGE_LENGTH = 500;
+const MAX_USERNAME_LENGTH = 50;
 
 const users = new Map<string, User>();
 const messageHistory: ChatMessage[] = [];
 const MAX_HISTORY = config.websocket.maxHistory;
+
+// HTMLエスケープ関数
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+  };
+  return text.replace(/[&<>"'/]/g, (m) => map[m] || m);
+}
+
+// メッセージ検証関数
+function validateMessage(text: string): string | null {
+  if (typeof text !== 'string') {
+    return null;
+  }
+
+  const trimmed = text.trim();
+  if (trimmed.length === 0 || trimmed.length > MAX_MESSAGE_LENGTH) {
+    return null;
+  }
+
+  return escapeHtml(trimmed);
+}
 
 // ユーザー名生成
 function generateUsername(): string {
@@ -25,7 +44,8 @@ function generateUsername(): string {
   const animals = ['Cat', 'Dog', 'Fox', 'Bear', 'Bird'];
   const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
   const animal = animals[Math.floor(Math.random() * animals.length)];
-  return `${adj}${animal}${Math.floor(Math.random() * 1000)}`;
+  const username = `${adj}${animal}${Math.floor(Math.random() * 1000)}`;
+  return username.slice(0, MAX_USERNAME_LENGTH);
 }
 
 // メッセージをブロードキャスト
@@ -87,7 +107,7 @@ const server = Bun.serve({
   },
 
   websocket: {
-    open(ws) {
+    open(ws: BunWebSocket) {
       const userId = crypto.randomUUID();
       const username = generateUsername();
 
@@ -108,7 +128,7 @@ const server = Bun.serve({
       const joinMessage: ChatMessage = {
         id: crypto.randomUUID(),
         username: 'System',
-        message: `${username} が参加しました`,
+        message: `${escapeHtml(username)} が参加しました`,
         timestamp: new Date().toISOString(),
         type: 'join',
       };
@@ -129,17 +149,48 @@ const server = Bun.serve({
       console.log(`👤 ${username} が接続しました`);
     },
 
-    message(ws, message) {
+    message(ws: BunWebSocket, message: string | Buffer) {
       const { userId, username } = ws.data as { userId: string; username: string };
 
       try {
-        const data = JSON.parse(message.toString());
+        const rawData = message.toString();
 
-        if (data.type === 'message' && data.text) {
+        // メッセージサイズチェック
+        if (rawData.length > MAX_MESSAGE_LENGTH * 2) {
+          ws.send(
+            JSON.stringify({
+              type: 'error',
+              message: 'メッセージが長すぎます',
+            }),
+          );
+          return;
+        }
+
+        const data: WebSocketMessage = JSON.parse(rawData);
+
+        // 入力検証
+        if (!data || typeof data !== 'object') {
+          return;
+        }
+
+        if (data.type === 'message' && typeof data.text === 'string') {
+          // メッセージ検証とサニタイズ
+          const validatedMessage = validateMessage(data.text);
+
+          if (!validatedMessage) {
+            ws.send(
+              JSON.stringify({
+                type: 'error',
+                message: '無効なメッセージ形式です',
+              }),
+            );
+            return;
+          }
+
           const chatMessage: ChatMessage = {
             id: crypto.randomUUID(),
-            username,
-            message: data.text,
+            username: escapeHtml(username),
+            message: validatedMessage,
             timestamp: new Date().toISOString(),
             type: 'message',
           };
@@ -150,14 +201,20 @@ const server = Bun.serve({
           // 他のユーザーにブロードキャスト
           broadcast(chatMessage, userId);
 
-          console.log(`💬 ${username}: ${data.text}`);
+          console.log(`💬 ${username}: ${validatedMessage}`);
         }
       } catch (error) {
         console.error('メッセージ処理エラー:', error);
+        ws.send(
+          JSON.stringify({
+            type: 'error',
+            message: '無効なメッセージ形式です',
+          }),
+        );
       }
     },
 
-    close(ws) {
+    close(ws: BunWebSocket) {
       const { userId, username } = ws.data as { userId: string; username: string };
 
       users.delete(userId);
@@ -166,7 +223,7 @@ const server = Bun.serve({
       const leaveMessage: ChatMessage = {
         id: crypto.randomUUID(),
         username: 'System',
-        message: `${username} が退出しました`,
+        message: `${escapeHtml(username)} が退出しました`,
         timestamp: new Date().toISOString(),
         type: 'leave',
       };

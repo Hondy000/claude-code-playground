@@ -5,7 +5,12 @@ console.log('🚀 Bun バンドリングデモ');
 console.log('================================\n');
 
 // ビルド設定
-const buildConfigs: Array<{ name: string; config: any }> = [
+interface BuildConfigEntry {
+  name: string;
+  config: Bun.BuildConfig;
+}
+
+const buildConfigs: BuildConfigEntry[] = [
   // 1. 開発ビルド
   {
     name: '開発ビルド',

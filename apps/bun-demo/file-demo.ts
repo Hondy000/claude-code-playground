@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 // Bunのファイル操作API デモ
 import { file, write } from 'bun';
+import { unlink } from 'node:fs/promises';
+
+// 作成されたファイルを追跡
+const createdFiles: string[] = [];
+
+// CI環境の検出
+const isCI = process.env.CI === 'true';
 
 // ファイル操作のデモ
 async function fileOperationsDemo() {
@@ -8,6 +15,7 @@ async function fileOperationsDemo() {
 
   // 1. ファイルの書き込み
   await write('./demo.txt', 'Hello from Bun!\nThis is a test file.\n');
+  createdFiles.push('./demo.txt');
   console.log('✅ ファイルを作成しました: demo.txt');
 
   // 2. ファイルの読み込み（テキスト）
@@ -28,6 +36,7 @@ async function fileOperationsDemo() {
   };
 
   await write('./data.json', JSON.stringify(jsonData, null, 2));
+  createdFiles.push('./data.json');
   console.log('✅ JSONファイルを作成しました: data.json');
 
   const jsonFile = file('./data.json');
@@ -49,11 +58,13 @@ async function fileOperationsDemo() {
 佐藤次郎,35,マネージャー`;
 
   await write('./users.csv', csvData);
+  createdFiles.push('./users.csv');
   console.log('\n✅ CSVファイルを作成しました: users.csv');
 
   // 6. バイナリファイルの操作
   const buffer = Buffer.from([0x48, 0x65, 0x6c, 0x6c, 0x6f]); // "Hello" in hex
   await write('./binary.dat', buffer);
+  createdFiles.push('./binary.dat');
 
   const binaryFile = file('./binary.dat');
   const arrayBuffer = await binaryFile.arrayBuffer();
@@ -82,6 +93,7 @@ async function asyncDemo() {
   const files = ['file1.txt', 'file2.txt', 'file3.txt'];
   const promises = files.map(async (filename) => {
     await write(filename, `Content of ${filename}`);
+    createdFiles.push(filename);
     return `${filename} created`;
   });
 
@@ -96,6 +108,29 @@ async function asyncDemo() {
   }
 }
 
+// クリーンアップ関数
+async function cleanupFiles() {
+  if (isCI) {
+    console.log('\n🧹 CI環境で実行中のため、クリーンアップをスキップします');
+    return;
+  }
+
+  console.log('\n🧹 クリーンアップ中...');
+
+  for (const filepath of createdFiles) {
+    try {
+      if (await file(filepath).exists()) {
+        await unlink(filepath);
+        console.log(`  削除: ${filepath}`);
+      }
+    } catch (error) {
+      console.error(`  クリーンアップエラー: ${filepath}`, error);
+    }
+  }
+
+  console.log('🧹 クリーンアップ完了');
+}
+
 // メイン実行
 async function main() {
   try {
@@ -105,6 +140,9 @@ async function main() {
     console.log('\n✨ すべてのデモが完了しました！');
   } catch (error) {
     console.error('エラーが発生しました:', error);
+  } finally {
+    // 必ずクリーンアップを実行
+    await cleanupFiles();
   }
 }
 
