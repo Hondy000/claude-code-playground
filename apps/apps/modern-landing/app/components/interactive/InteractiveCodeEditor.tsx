@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // ============================================================
 // インタラクティブコードエディターコンポーネント
@@ -8,10 +8,10 @@
 // コードが生成される様子をアニメーションで表現します。
 // ============================================================
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, Sparkles, Code2 } from "lucide-react";
-import TypewriterCode from "./TypewriterCode";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Sparkles, Code2 } from 'lucide-react';
+import TypewriterCode from './TypewriterCode';
 
 // コード例の型定義
 interface CodeExample {
@@ -25,9 +25,9 @@ interface CodeExample {
 // 生成可能なコードのサンプルデータ
 const codeExamples: CodeExample[] = [
   {
-    id: "1",
-    title: "アニメーションボタン",
-    description: "ホバー時に波紋エフェクトが広がるボタン",
+    id: '1',
+    title: 'アニメーションボタン',
+    description: 'ホバー時に波紋エフェクトが広がるボタン',
     code: `const RippleButton = () => {
   const [ripples, setRipples] = useState([]);
   
@@ -66,12 +66,12 @@ const codeExamples: CodeExample[] = [
     </button>
   );
 };`,
-    output: "✨ インタラクティブなボタンが生成されました！"
+    output: '✨ インタラクティブなボタンが生成されました！',
   },
   {
-    id: "2",
-    title: "プログレスバー",
-    description: "スムーズなアニメーション付きプログレスバー",
+    id: '2',
+    title: 'プログレスバー',
+    description: 'スムーズなアニメーション付きプログレスバー',
     code: `const AnimatedProgress = ({ value = 75 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   
@@ -98,12 +98,12 @@ const codeExamples: CodeExample[] = [
     </div>
   );
 };`,
-    output: "📊 プログレスバーが生成されました！"
+    output: '📊 プログレスバーが生成されました！',
   },
   {
-    id: "3",
-    title: "通知トースト",
-    description: "スライドインアニメーション付き通知",
+    id: '3',
+    title: '通知トースト',
+    description: 'スライドインアニメーション付き通知',
     code: `const Toast = ({ message, type = 'success' }) => {
   const [isVisible, setIsVisible] = useState(true);
   
@@ -146,8 +146,8 @@ const codeExamples: CodeExample[] = [
     </AnimatePresence>
   );
 };`,
-    output: "🔔 通知コンポーネントが生成されました！"
-  }
+    output: '🔔 通知コンポーネントが生成されました！',
+  },
 ];
 
 export default function InteractiveCodeEditor() {
@@ -160,12 +160,15 @@ export default function InteractiveCodeEditor() {
   const handleGenerate = () => {
     setIsGenerating(true);
     setShowOutput(false);
-    
+
     // コードの長さに応じてタイピング時間を計算
-    setTimeout(() => {
-      setIsGenerating(false);
-      setShowOutput(true);
-    }, selectedExample.code.length * 30 + 500);
+    setTimeout(
+      () => {
+        setIsGenerating(false);
+        setShowOutput(true);
+      },
+      selectedExample.code.length * 30 + 500,
+    );
   };
 
   return (
@@ -185,8 +188,8 @@ export default function InteractiveCodeEditor() {
               }}
               className={`w-full text-left p-4 rounded-lg border transition-all ${
                 selectedExample.id === example.id
-                  ? "border-primary bg-primary/10"
-                  : "border-border hover:border-primary/50"
+                  ? 'border-primary bg-primary/10'
+                  : 'border-border hover:border-primary/50'
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -197,9 +200,7 @@ export default function InteractiveCodeEditor() {
                 <Code2 className="w-5 h-5 text-primary mt-0.5" aria-hidden="true" />
                 <div>
                   <h4 className="font-semibold">{example.title}</h4>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {example.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{example.description}</p>
                 </div>
               </div>
             </motion.button>
@@ -215,7 +216,7 @@ export default function InteractiveCodeEditor() {
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={!isGenerating ? { scale: 1.05 } : {}}
               whileTap={!isGenerating ? { scale: 0.95 } : {}}
-              aria-label={isGenerating ? "コード生成中" : "コードを生成する"}
+              aria-label={isGenerating ? 'コード生成中' : 'コードを生成する'}
               aria-busy={isGenerating}
             >
               {isGenerating ? (
@@ -234,13 +235,10 @@ export default function InteractiveCodeEditor() {
 
           <div className="bg-gray-900 rounded-xl overflow-hidden">
             {isGenerating ? (
-              <TypewriterCode
-                code={selectedExample.code}
-                onComplete={() => setShowOutput(true)}
-              />
+              <TypewriterCode code={selectedExample.code} onComplete={() => setShowOutput(true)} />
             ) : (
               <pre className="text-sm md:text-base p-4 text-gray-400">
-                <code>// ボタンをクリックしてコードを生成...</code>
+                <code>{`// ボタンをクリックしてコードを生成...`}</code>
               </pre>
             )}
           </div>
@@ -257,9 +255,7 @@ export default function InteractiveCodeEditor() {
               >
                 <div className="flex items-center gap-3">
                   <Sparkles className="w-5 h-5 text-green-500" aria-hidden="true" />
-                  <p className="font-medium text-green-500">
-                    {selectedExample.output}
-                  </p>
+                  <p className="font-medium text-green-500">{selectedExample.output}</p>
                 </div>
               </motion.div>
             )}

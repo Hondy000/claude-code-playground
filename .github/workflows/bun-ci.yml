@@ -1,0 +1,72 @@
+name: Bun CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test Bun Demo
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        bun-version: [latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun-version }}
+
+      - name: Install dependencies
+        run: cd apps/bun-demo && bun install
+
+      - name: Run tests
+        run: cd apps/bun-demo && bun test
+
+      - name: Type check
+        run: cd apps/bun-demo && bun run typecheck
+
+      - name: Build check
+        run: cd apps/bun-demo && bun run build
+
+      - name: Run benchmarks
+        run: cd apps/bun-demo && bun run bench
+        continue-on-error: true
+
+  build:
+    name: Build React App
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: cd apps/bun-demo && bun install
+
+      - name: Build React app
+        run: cd apps/bun-demo && bun run build:react
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: apps/bun-demo/dist/
+          retention-days: 7

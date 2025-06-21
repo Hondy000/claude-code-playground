@@ -5,7 +5,7 @@
 // 現在はデフォルト設定で、必要に応じてカスタマイズ可能です。
 // ============================================================
 
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* 設定オプションはここに追加 */

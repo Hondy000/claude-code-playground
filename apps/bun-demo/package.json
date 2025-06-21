@@ -1,0 +1,39 @@
+{
+  "name": "bun-demo",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "server": "bun run server.ts",
+    "api": "bun run api-server.ts",
+    "chat": "bun run websocket-server.ts",
+    "test": "bun test",
+    "bench": "bun run benchmark.ts",
+    "file-demo": "bun run file-demo.ts",
+    "worker-demo": "bun run worker-demo.ts",
+    "shell": "bun run shell-demo.ts",
+    "build": "bun run build.ts",
+    "build:react": "bun run build.ts production",
+    "dev": "bun --hot run server.ts",
+    "react-dev": "bun --hot ./react-app/index.html",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "ci": "bun run typecheck && bun test && bun run lint"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}

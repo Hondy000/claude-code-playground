@@ -6,9 +6,9 @@
 // パフォーマンスとアクセシビリティを最適化します。
 // ============================================================
 
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
 
 // ESモジュールで__dirnameを取得
 const __filename = fileURLToPath(import.meta.url);
@@ -22,7 +22,7 @@ const compat = new FlatCompat({
 // ESLint設定
 const eslintConfig = [
   // Next.jsの推奨設定を拡張
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
 ];
 
 export default eslintConfig;

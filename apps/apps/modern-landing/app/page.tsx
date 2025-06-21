@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // ============================================================
 // VibeCoding ランディングページ - メインコンポーネント
@@ -9,14 +9,14 @@
 // リアルタイムコードエディタなどの機能を提供します。
 // ============================================================
 
-import { motion } from "framer-motion";
-import { Mic, Zap, Code, Keyboard, Brain, Headphones, Sparkles, Music } from "lucide-react";
-import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import VoiceInputSimulator from "./components/interactive/VoiceInputSimulator";
-import InteractiveCodeEditor from "./components/interactive/InteractiveCodeEditor";
-import Card3D from "./components/interactive/Card3D";
-import ParticleBackground from "./components/interactive/ParticleBackground";
+import { motion } from 'framer-motion';
+import { Mic, Code, Keyboard, Headphones, Sparkles, Music } from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import VoiceInputSimulator from './components/interactive/VoiceInputSimulator';
+import InteractiveCodeEditor from './components/interactive/InteractiveCodeEditor';
+import Card3D from './components/interactive/Card3D';
+import ParticleBackground from './components/interactive/ParticleBackground';
 
 export default function Home() {
   // スクロール状態を管理（ナビゲーションバーの背景変更用）
@@ -27,26 +27,26 @@ export default function Home() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // VibeCodingの主要な特徴を定義
   const features = [
     {
       icon: <Sparkles className="w-6 h-6" />,
-      title: "雰囲気でコーディング",
-      description: "「なんとなくこんな感じ」という直感的な指示で、AIがコードを生成する新時代",
+      title: '雰囲気でコーディング',
+      description: '「なんとなくこんな感じ」という直感的な指示で、AIがコードを生成する新時代',
     },
     {
       icon: <Mic className="w-6 h-6" />,
-      title: "音声入力も可能",
-      description: "声で話しかけるだけで、自然言語からコードへ。思考の速度で開発を実現",
+      title: '音声入力も可能',
+      description: '声で話しかけるだけで、自然言語からコードへ。思考の速度で開発を実現',
     },
     {
       icon: <Music className="w-6 h-6" />,
-      title: "クリエイティブなフロー",
-      description: "Rick Rubinの「The Way of Code」のように、創造性と技術が融合する開発体験",
+      title: 'クリエイティブなフロー',
+      description: 'Rick Rubinの「The Way of Code」のように、創造性と技術が融合する開発体験',
     },
   ];
 
@@ -54,18 +54,18 @@ export default function Home() {
   const benefits = [
     {
       icon: <Keyboard className="w-6 h-6" />,
-      title: "手首の疲労ゼロ",
-      description: "長時間のタイピングによる疲労から解放",
+      title: '手首の疲労ゼロ',
+      description: '長時間のタイピングによる疲労から解放',
     },
     {
       icon: <Code className="w-6 h-6" />,
-      title: "コード品質向上",
-      description: "AIアシスタントが常に最適なコードパターンを提案",
+      title: 'コード品質向上',
+      description: 'AIアシスタントが常に最適なコードパターンを提案',
     },
     {
       icon: <Headphones className="w-6 h-6" />,
-      title: "マルチタスク対応",
-      description: "歩きながら、考えながら、自由なスタイルで開発",
+      title: 'マルチタスク対応',
+      description: '歩きながら、考えながら、自由なスタイルで開発',
     },
   ];
 
@@ -75,7 +75,7 @@ export default function Home() {
       {/* ナビゲーションバー - スクロール時に背景をぼかし効果付きで表示 */}
       <motion.nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          isScrolled ? "bg-background/80 backdrop-blur-md border-b" : ""
+          isScrolled ? 'bg-background/80 backdrop-blur-md border-b' : ''
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -88,15 +88,19 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="gradient-primary">
-                VibeCode
-              </span>
+              <span className="gradient-primary">VibeCode</span>
             </motion.div>
             <div className="flex items-center gap-2 sm:gap-6">
-              <a href="#features" className="hover:text-primary transition-colors text-sm sm:text-base">
+              <a
+                href="#features"
+                className="hover:text-primary transition-colors text-sm sm:text-base"
+              >
                 特徴
               </a>
-              <a href="#benefits" className="hover:text-primary transition-colors text-sm sm:text-base hidden sm:inline">
+              <a
+                href="#benefits"
+                className="hover:text-primary transition-colors text-sm sm:text-base hidden sm:inline"
+              >
                 メリット
               </a>
               <motion.button
@@ -126,10 +130,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              雰囲気で書く、{" "}
-              <span className="gradient-primary">
-                Vibe Coding
-              </span>
+              雰囲気で書く、 <span className="gradient-primary">Vibe Coding</span>
             </motion.h1>
             <motion.p
               className="text-xl text-muted-foreground mb-8"
@@ -137,8 +138,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              「なんとなくこんな感じ」から始まる、AIとの対話型開発。
-              Andrej Karpathy提唱の新手法で、コーディングがもっと自由に。
+              「なんとなくこんな感じ」から始まる、AIとの対話型開発。 Andrej
+              Karpathy提唱の新手法で、コーディングがもっと自由に。
             </motion.p>
             <motion.div
               className="flex gap-4 justify-center flex-wrap"
@@ -152,7 +153,7 @@ export default function Home() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Mic className="w-4 h-4" />
-                雰囲気を感じてみる 
+                雰囲気を感じてみる
               </motion.button>
               <motion.button
                 className="px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors"
@@ -194,7 +195,7 @@ export default function Home() {
               transition={{
                 duration: 4,
                 repeat: Infinity,
-                repeatType: "reverse",
+                repeatType: 'reverse',
               }}
             />
           </motion.div>
@@ -248,8 +249,7 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold mb-4">
-              なぜVibe Codingが{" "}
-              <span className="gradient-primary">最高</span>
+              なぜVibe Codingが <span className="gradient-primary">最高</span>
               なのか
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -292,8 +292,7 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold mb-8">
-              実際の操作を{" "}
-              <span className="gradient-primary">体験</span>
+              実際の操作を <span className="gradient-primary">体験</span>
             </h2>
             <p className="text-sm text-muted-foreground/70 italic mb-6">
               ※ このセクションで表示されるコード例はイメージです
@@ -311,7 +310,9 @@ export default function Home() {
                     <Mic className="w-6 h-6 text-primary" />
                   </div>
                   <div className="text-left">
-                    <p className="font-semibold">あなた: 「なんかいい感じのモダンなボタン作って」</p>
+                    <p className="font-semibold">
+                      あなた: 「なんかいい感じのモダンなボタン作って」
+                    </p>
                   </div>
                 </motion.div>
 
@@ -326,9 +327,11 @@ export default function Home() {
                     <Code className="w-6 h-6" />
                   </div>
                   <div className="text-left flex-1">
-                    <p className="text-muted-foreground">AIが雰囲気を読み取ってコード生成...（イメージ）</p>
+                    <p className="text-muted-foreground">
+                      AIが雰囲気を読み取ってコード生成...（イメージ）
+                    </p>
                     <pre className="bg-background/50 p-2 rounded mt-2 text-sm overflow-x-auto">
-{`const ModernButton = ({ children, onClick }) => {
+                      {`const ModernButton = ({ children, onClick }) => {
   return (
     <button 
       className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 
@@ -360,8 +363,7 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold mb-4">
-              インタラクティブな{" "}
-              <span className="gradient-primary">開発体験</span>
+              インタラクティブな <span className="gradient-primary">開発体験</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               実際に音声入力やコード生成を体験してみましょう
@@ -405,15 +407,11 @@ export default function Home() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl font-bold mb-6">
-            今すぐ{" "}
-            <span className="gradient-primary">
-              Vibe Coding
-            </span>
+            今すぐ <span className="gradient-primary">Vibe Coding</span>
             を始めよう
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            キーボードの限界を超えて、新しい開発体験へ。
-            今なら無料でお試しいただけます。
+            キーボードの限界を超えて、新しい開発体験へ。 今なら無料でお試しいただけます。
           </p>
           <motion.button
             className="px-8 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-lg font-semibold flex items-center gap-2 mx-auto"
@@ -431,9 +429,7 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-xl sm:text-2xl font-bold">
-              <span className="gradient-primary">
-                VibeCode
-              </span>
+              <span className="gradient-primary">VibeCode</span>
             </div>
             <div className="flex gap-6">
               <motion.a
@@ -461,9 +457,7 @@ export default function Home() {
                 <FaLinkedin className="w-5 h-5" />
               </motion.a>
             </div>
-            <p className="text-sm text-muted-foreground">
-              © 2024 VibeCode. All rights reserved.
-            </p>
+            <p className="text-sm text-muted-foreground">© 2024 VibeCode. All rights reserved.</p>
           </div>
         </div>
       </footer>

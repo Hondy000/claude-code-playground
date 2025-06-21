@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Light mode colors (default) */
 :root {
@@ -146,7 +146,8 @@ body {
 }
 
 /* Prevent horizontal scroll */
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
 }

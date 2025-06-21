@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // ============================================================
 // 3Dカードコンポーネント
@@ -8,8 +8,8 @@
 // ホバー時のインタラクティブな効果を実現します。
 // ============================================================
 
-import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 // コンポーネントのProps型定義
 interface Card3DProps {
@@ -17,7 +17,7 @@ interface Card3DProps {
   className?: string;
 }
 
-export default function Card3D({ children, className = "" }: Card3DProps) {
+export default function Card3D({ children, className = '' }: Card3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,16 +30,8 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
   const mouseYSpring = useSpring(y);
 
   // マウス位置に基づいた回転角度の計算
-  const rotateX = useTransform(
-    mouseYSpring,
-    [-0.5, 0.5],
-    ["17.5deg", "-17.5deg"]
-  );
-  const rotateY = useTransform(
-    mouseXSpring,
-    [-0.5, 0.5],
-    ["-17.5deg", "17.5deg"]
-  );
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['17.5deg', '-17.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-17.5deg', '17.5deg']);
 
   // グラデーション位置のリアクティブな計算
   const gradientX = useTransform(mouseXSpring, [-0.5, 0.5], [0, 100]);
@@ -82,7 +74,7 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
       style={{
         rotateY,
         rotateX,
-        transformStyle: "preserve-3d",
+        transformStyle: 'preserve-3d',
       }}
       className={`relative ${className}`}
       role="presentation"
@@ -90,17 +82,17 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
     >
       <div
         style={{
-          transform: "translateZ(75px)",
-          transformStyle: "preserve-3d",
+          transform: 'translateZ(75px)',
+          transformStyle: 'preserve-3d',
         }}
         className="relative"
       >
         {children}
       </div>
-      
+
       <motion.div
         style={{
-          transform: "translateZ(-50px)",
+          transform: 'translateZ(-50px)',
         }}
         animate={{
           opacity: isHovered ? 0.5 : 0,
@@ -111,10 +103,10 @@ export default function Card3D({ children, className = "" }: Card3DProps) {
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
-          background: useTransform(
-            [gradientX, gradientY],
-            ([x, y]) => `radial-gradient(600px circle at ${x + 50}% ${y + 50}%, rgba(255,255,255,0.1), transparent 40%)`
-          ),
+          background: useTransform([gradientX, gradientY], (latest: number[]) => {
+            const [x, y] = latest;
+            return `radial-gradient(600px circle at ${x + 50}% ${y + 50}%, rgba(255,255,255,0.1), transparent 40%)`;
+          }),
         }}
       />
     </motion.div>

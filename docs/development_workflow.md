@@ -19,6 +19,7 @@ make check  # または ./scripts/check-all.sh
 ## 📋 プルリクエスト前のチェックリスト
 
 ### 1. コードフォーマット
+
 ```bash
 # フォーマットをチェック
 black --check apps/ tests/
@@ -28,6 +29,7 @@ black apps/ tests/
 ```
 
 ### 2. インポートの整理
+
 ```bash
 # インポート順序をチェック
 isort --check-only apps/ tests/
@@ -37,6 +39,7 @@ isort apps/ tests/
 ```
 
 ### 3. Lintチェック
+
 ```bash
 # 基本的な文法エラーをチェック
 flake8 apps/ tests/
@@ -46,12 +49,14 @@ flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 ```
 
 ### 4. セキュリティチェック
+
 ```bash
 # セキュリティ脆弱性をスキャン
 bandit -r apps/
 ```
 
 ### 5. テストの実行
+
 ```bash
 # すべてのテストを実行
 python -m unittest discover -s tests -p "test_*.py" -v
@@ -61,6 +66,7 @@ python -m unittest tests.calculator.test_calculator -v
 ```
 
 ### 6. ドキュメントのチェック（オプション）
+
 ```bash
 # markdownlintがインストールされている場合
 markdownlint README.md CLAUDE.md docs/*.md
@@ -69,6 +75,7 @@ markdownlint README.md CLAUDE.md docs/*.md
 ## 🔄 Git操作の流れ
 
 ### 1. 新機能の開発
+
 ```bash
 # mainブランチを最新に
 git checkout main
@@ -81,6 +88,7 @@ git checkout -b fix/バグ修正名
 ```
 
 ### 2. コミット前の確認
+
 ```bash
 # 変更内容を確認
 git status
@@ -96,6 +104,7 @@ git commit -m "type: 簡潔な説明"
 ```
 
 ### 3. Push前の最終チェック
+
 ```bash
 # 1. すべてのチェックを実行（上記参照）
 
@@ -107,6 +116,7 @@ git rebase -i HEAD~3  # 最後の3コミットを整理
 ```
 
 ### 4. Push とPR作成
+
 ```bash
 # リモートにpush
 git push -u origin ブランチ名
@@ -119,6 +129,7 @@ git push -u origin ブランチ名
 ## 🛠️ 便利なスクリプト
 
 ### すべてのチェックを一括実行
+
 `scripts/check-all.sh` を作成：
 
 ```bash
@@ -146,6 +157,7 @@ echo "✅ All checks passed!"
 ```
 
 ### 自動修正スクリプト
+
 `scripts/fix-all.sh` を作成：
 
 ```bash
@@ -165,12 +177,14 @@ echo "✅ Auto-fix complete! Please review changes."
 ## 💡 Tips
 
 1. **pre-commitフックの活用**（将来的に）
+
    ```bash
    pip install pre-commit
    pre-commit install
    ```
 
 2. **VSCode/Cursor設定**
+
    - Black、Flake8、isortの拡張機能をインストール
    - 保存時の自動フォーマットを有効化
 
@@ -184,18 +198,21 @@ echo "✅ Auto-fix complete! Please review changes."
 ## 🚨 トラブルシューティング
 
 ### pipが見つからない
+
 ```bash
 # 仮想環境が有効化されているか確認
 which python  # venv/bin/python が表示されるべき
 ```
 
 ### インポートエラー
+
 ```bash
 # PYTHONPATHを設定
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 ```
 
 ### Blackとisortの競合
+
 ```bash
 # .isort.cfg で Black互換モードを設定
 [settings]

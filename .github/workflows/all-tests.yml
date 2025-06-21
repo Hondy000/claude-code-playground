@@ -2,19 +2,17 @@ name: All Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   python:
-    name: Python Tests
     uses: ./.github/workflows/python-tests.yml
-  
+
   nodejs:
-    name: Node.js Tests
     uses: ./.github/workflows/nodejs-tests.yml
-  
+
   integration:
     name: Integration Check
     needs: [python, nodejs]
@@ -25,7 +23,7 @@ jobs:
           echo "✅ All tests completed successfully!"
           echo "Python tests: ✓"
           echo "Node.js tests: ✓"
-  
+
   summary:
     name: Test Summary
     if: always()

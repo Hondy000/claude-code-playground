@@ -5,9 +5,11 @@
 [![Node.js CI](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/nodejs-tests.yml)
 [![All Tests](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml/badge.svg)](https://github.com/Hondy000/claude-code-playground/actions/workflows/all-tests.yml)
 
-Claude Codeの機能をテストするための開発環境です。複数のミニアプリケーションを管理するプロジェクト構造になっています。
+Claude
+Codeの機能をテストするための開発環境です。複数のミニアプリケーションを管理するプロジェクト構造になっています。
 
 ## ディレクトリ構造
+
 ```
 claude-code-playground/
 ├── README.md        # このファイル
@@ -36,12 +38,14 @@ claude-code-playground/
 ## 現在のアプリケーション
 
 ### 🧮 電卓アプリ (Calculator)
+
 - **コアモジュール**: 四則演算、累乗、メモリ機能
 - **GUI版**: tkinterを使用したデスクトップアプリ
 - **Web版**: HTML/JavaScriptで実装
 - **テスト**: 29個のテストケース完備
 
 #### 使い方
+
 ```bash
 # デモプログラムを実行
 python3 -m apps.calculator.calculator_demo
@@ -54,6 +58,7 @@ python3 tests/calculator/test_calculator.py -v
 ```
 
 ## セットアップ
+
 ```bash
 # リポジトリをクローン
 git clone https://github.com/Hondy000/claude-code-playground.git
@@ -72,6 +77,7 @@ pip install -r requirements-dev.txt
 ```
 
 ## 新しいアプリの追加方法
+
 1. `apps/`に新しいディレクトリを作成
 2. `__init__.py`とアプリケーションファイルを追加
 3. `tests/`に対応するテストディレクトリを作成
