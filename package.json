@@ -16,7 +16,7 @@
     "test:python": "python3 tests/calculator/test_calculator.py -v",
     "typecheck": "tsc --noEmit",
     "ci": "bun run format:check && bun run lint && bun run typecheck && bun run test:all",
-    "prepare": "husky install"
+    "prepare": "node -e \"if (!process.env.CI) { require('child_process').execSync('husky install', {stdio: 'inherit'}); }\""
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
