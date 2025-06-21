@@ -103,7 +103,6 @@ export default function Card3D({ children, className = '' }: Card3DProps) {
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
-          // @ts-expect-error - framer-motion useTransform型の複雑な問題を一時的に無視
           background: useTransform(
             [gradientX, gradientY],
             ([x, y]: [number, number]) =>
