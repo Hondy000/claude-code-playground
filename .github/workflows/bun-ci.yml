@@ -2,9 +2,13 @@ name: Bun CI
 
 on:
   push:
-    branches: [main, develop, "feature/**"]
+    branches:
+      - main
+      - develop
+      - "feature/**"
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:

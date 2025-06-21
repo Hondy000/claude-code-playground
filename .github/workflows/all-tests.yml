@@ -8,11 +8,9 @@ on:
 
 jobs:
   python:
-    name: Python Tests
     uses: ./.github/workflows/python-tests.yml
 
   nodejs:
-    name: Node.js Tests
     uses: ./.github/workflows/nodejs-tests.yml
 
   integration:

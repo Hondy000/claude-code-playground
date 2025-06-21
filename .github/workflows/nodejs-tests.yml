@@ -17,6 +17,7 @@ on:
       - "apps/**/*.tsx"
       - "apps/**/*.json"
       - ".github/workflows/nodejs-tests.yml"
+  workflow_call:
 
 jobs:
   test:
