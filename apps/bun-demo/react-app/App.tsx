@@ -67,8 +67,10 @@ function App() {
           <input
             type="text"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              e.key === 'Enter' && addTodo()
+            }
             placeholder="新しいTodoを入力..."
             className="todo-input"
           />

@@ -93,11 +93,23 @@ describe('文字列操作', () => {
 // JSON解析のテスト
 describe('JSON解析', () => {
   test('有効なJSONを解析する', () => {
-    expect(parseJSON('{"name": "Bun"}')).toEqual({ name: 'Bun' });
-    expect(parseJSON('[1, 2, 3]')).toEqual([1, 2, 3]);
-    expect(parseJSON('"hello"')).toBe('hello');
-    expect(parseJSON('123')).toBe(123);
-    expect(parseJSON('true')).toBe(true);
+    const result1 = parseJSON<{ name: string }>('{"name": "Bun"}');
+    expect(result1).toEqual({ name: 'Bun' });
+
+    const result2 = parseJSON<number[]>('[1, 2, 3]');
+    expect(result2).toEqual([1, 2, 3]);
+
+    const result3 = parseJSON<string>('"hello"');
+    expect(result3).toBe('hello');
+
+    const result4 = parseJSON<number>('123');
+    expect(result4).toBe(123);
+
+    const result5 = parseJSON<boolean>('true');
+    expect(result5).toBe(true);
+
+    const result6 = parseJSON<null>('null');
+    expect(result6).toBe(null);
   });
 
   test('無効なJSONはnullを返す', () => {
